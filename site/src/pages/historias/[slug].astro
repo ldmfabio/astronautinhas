@@ -3,5 +3,8 @@ import Base from '../../layouts/Base.astro';
 import { getCollection, render } from 'astro:content';
 export async function getStaticPaths(){const stories=(await getCollection('historias')).filter(s=>!s.data.draft && s.data.publicacao?.site !== false);return stories.map(story=>({params:{slug:story.data.slug},props:{story}}));}
 const {story}=Astro.props; const {Content}=await render(story);
+const base = import.meta.env.BASE_URL;
+const url = (path = '') => `${base}${path.replace(/^\/+/, '')}`;
+const assetUrl = (path) => `${base}${path.replace(/^.*?assets\//, 'assets/')}`;
 ---
-<Base title={`${story.data.titulo} | Astronautinhas`}><article class="story"><p>Aventura #{story.data.numero}</p><h1>{story.data.titulo}</h1><div class="spread"><div class="text"><Content/></div><div><img src={story.data.imagem.replace('../../assets','/assets')} alt={`Ilustração de ${story.data.titulo}`}/></div></div><p><a href="/historias/">← Todas as aventuras</a></p></article></Base>
+<Base title={`${story.data.titulo} | Astronautinhas`}><article class="story"><p>Aventura #{story.data.numero}</p><h1>{story.data.titulo}</h1><div class="spread"><div class="text"><Content/></div><div><img src={assetUrl(story.data.imagem)} alt={`Ilustração de ${story.data.titulo}`}/></div></div><p><a href={url('historias/')}>← Todas as aventuras</a></p></article></Base>
