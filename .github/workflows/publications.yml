@@ -1,0 +1,27 @@
+name: Build publications
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'content/**'
+      - 'assets/**'
+      - 'metadata.yaml'
+      - 'publishing/**'
+      - 'scripts/**'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y pandoc texlive-xetex texlive-latex-extra lmodern
+      - run: python3 scripts/validate_content.py
+      - run: python3 scripts/build_book.py --format pdf --if-empty skip
+      - run: python3 scripts/build_book.py --format epub --if-empty skip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: astronautinhas-publicacoes
+          path: |
+            dist/astronautinhas.pdf
+            dist/astronautinhas.epub
+          if-no-files-found: ignore

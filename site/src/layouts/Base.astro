@@ -1,0 +1,12 @@
+---
+import '../styles/global.css';
+const { title = 'Astronautinhas', description = 'As aventuras do Astronauta Espaguete e da Astronauta Penne' } = Astro.props;
+---
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="description" content={description}/><title>{title}</title></head>
+<body>
+<header class="topbar"><a class="brand" href="/">🚀 Astronautinhas</a><nav><a href="/historias/">Histórias</a><a href="/sobre/">Sobre</a></nav></header>
+<main><slot /></main>
+<footer><strong>Astronautinhas</strong><span>As aventuras do Astronauta Espaguete e da Astronauta Penne.</span></footer>
+</body></html>

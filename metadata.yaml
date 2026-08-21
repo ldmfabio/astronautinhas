@@ -1,0 +1,14 @@
+title: "Astronautinhas"
+subtitle: "As aventuras do Astronauta Espaguete e da Astronauta Penne"
+lang: "pt-BR"
+website: "https://astronautinhas.com.br"
+personagens:
+  astronauta_espaguete:
+    nome: "Henrique"
+  astronauta_penne:
+    nome: "Mariana"
+familia:
+  - "Mamãe"
+  - "Papai"
+  - "Henrique"
+  - "Mariana"

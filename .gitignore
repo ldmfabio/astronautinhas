@@ -1,0 +1,9 @@
+dist/
+site/node_modules/
+site/dist/
+site/.astro/
+site/public/assets/
+__pycache__/
+*.pyc
+.DS_Store
+*.log

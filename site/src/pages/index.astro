@@ -1,0 +1,10 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+const stories=(await getCollection('historias')).filter(s=>!s.data.draft && s.data.publicacao?.site !== false).sort((a,b)=>b.data.numero-a.data.numero).slice(0,6);
+---
+<Base>
+<section class="hero"><p>🚀 🍝</p><h1>Astronautinhas</h1><p>As aventuras do Astronauta Espaguete e da Astronauta Penne.</p><a class="button" href="/historias/">Conheça as aventuras</a></section>
+<h2>Últimas aventuras</h2>
+{stories.length ? <section class="grid">{stories.map(s=><a class="card" href={`/historias/${s.data.slug}/`}><img src={s.data.imagem.replace('../../assets','/assets')} alt={`Ilustração de ${s.data.titulo}`}/><div class="content"><small>Aventura #{s.data.numero}</small><h3>{s.data.titulo}</h3></div></a>)}</section> : <section class="empty"><h3>🪐 Diário de bordo em preparação</h3><p>As histórias originais aparecerão aqui após conferência e importação.</p></section>}
+</Base>
