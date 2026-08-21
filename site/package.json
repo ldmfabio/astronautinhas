@@ -1,0 +1,15 @@
+{
+  "name": "astronautinhas-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "npm run sync-assets && astro dev",
+    "build": "npm run sync-assets && astro build",
+    "preview": "astro preview",
+    "sync-assets": "node scripts/sync-assets.mjs"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.6.0",
+    "astro": "^5.13.0"
+  }
+}

@@ -1,0 +1,4 @@
+body { font-family: serif; line-height: 1.55; margin: 5%; }
+h1 { break-before: page; text-align: center; }
+img { display: block; max-width: 100%; max-height: 90vh; margin: 1.5em auto; }
+p { orphans: 2; widows: 2; }

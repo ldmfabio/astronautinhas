@@ -1,0 +1,22 @@
+\documentclass[12pt,openany]{book}
+\usepackage{fontspec}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{parskip}
+\usepackage{microtype}
+\usepackage{fancyhdr}
+\geometry{paperwidth=210mm,paperheight=210mm,inner=22mm,outer=18mm,top=18mm,bottom=20mm}
+\setmainfont{Latin Modern Roman}
+\hypersetup{hidelinks}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\begin{document}
+$if(title)$
+\begin{titlepage}\centering\vspace*{0.22\textheight}{\Huge\bfseries $title$\par}$if(subtitle)$\vspace{1em}{\Large $subtitle$\par}$endif$\vfill\end{titlepage}
+$endif$
+$if(toc)$\tableofcontents\clearpage$endif$
+$body$
+\end{document}
