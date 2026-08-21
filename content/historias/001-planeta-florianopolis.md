@@ -16,10 +16,10 @@ fonte:
   titulo_conversa: "Astronautas em Florianópolis"
   autor_prompt: "Fábio de Moura"
   prompt_arquivo: "../../archive/prompts/001-planeta-florianopolis.md"
-  status_importacao: "parcial"
+  status_importacao: "original-importado"
   prompt_original_importado: true
-  texto_original_importado: false
-  imagem_original_importada: false
+  texto_original_importado: true
+  imagem_original_importada: true
 ---
 
 # O Planeta Florianópolis
