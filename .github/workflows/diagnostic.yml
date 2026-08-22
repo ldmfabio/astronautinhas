@@ -5,7 +5,7 @@ on:
 
 jobs:
   runner:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     steps:
       - name: Verify runner
         run: echo "GitHub Actions runner OK"
