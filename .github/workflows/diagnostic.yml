@@ -1,0 +1,11 @@
+name: Diagnostic runner
+
+on:
+  pull_request:
+
+jobs:
+  runner:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify runner
+        run: echo "GitHub Actions runner OK"
