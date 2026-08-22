@@ -2,25 +2,39 @@
 
 O site Astro é publicado a partir da mesma fonte Markdown usada pelo livro e pelo EPUB.
 
-## URL inicial
-
-Enquanto não houver domínio próprio configurado, o endereço esperado é:
+## URL
 
 `https://ldmfabio.github.io/astronautinhas/`
 
-## Ativar no GitHub
+## Configurar o GitHub Pages
 
 1. Abra **Settings → Pages** no repositório.
-2. Em **Build and deployment → Source**, selecione **GitHub Actions**.
-3. Salve, se o GitHub solicitar confirmação.
+2. Em **Build and deployment → Source**, selecione **Deploy from a branch**.
+3. Em **Branch**, escolha `gh-pages`.
+4. Em **Folder**, escolha `/ (root)`.
+5. Salve.
 
-A partir daí, todo push no `main` que alterar `site/`, `content/` ou `assets/` executará `.github/workflows/site.yml` e publicará o site.
+A branch `gh-pages` deve conter somente o site compilado. O conteúdo editorial continua em `main`.
 
-## Repositório privado
+## Publicar o site
 
-GitHub Pages em repositório privado requer um plano GitHub que ofereça Pages para repositórios privados. Se a conta não tiver esse recurso, não torne este repositório público sem revisar `archive/`, pois ele contém os registros históricos dos prompts.
+A partir de `main`, com o repositório limpo e Git/Node/Python instalados, execute:
 
-Uma alternativa segura é manter este repositório privado e publicar apenas o resultado compilado em outro repositório público ou em outro provedor.
+```bash
+make deploy-pages
+```
+
+O comando:
+
+```text
+valida o conteúdo
+→ instala dependências do site
+→ gera o build Astro para /astronautinhas/
+→ cria ou atualiza a branch gh-pages
+→ envia o site compilado ao GitHub
+```
+
+A publicação usa `site/dist/` e adiciona `.nojekyll` à branch pública.
 
 ## Publicar uma história
 
@@ -32,30 +46,16 @@ publicacao:
   site: true
 ```
 
-E a ilustração deve existir no caminho indicado por `imagem`.
+A ilustração também deve existir no caminho indicado por `imagem`.
 
-Antes de liberar uma história, rode:
+## Segurança do deploy
 
-```bash
-make validate
-```
+`make deploy-pages` interrompe a publicação se houver alterações locais não commitadas. Assim evitamos publicar um build que não corresponda a um commit conhecido.
 
-## Publicação automática
-
-O workflow faz:
-
-```text
-Markdown + imagens
-       ↓
-validação
-       ↓
-Astro build
-       ↓
-GitHub Pages artifact
-       ↓
-deploy
-```
+A branch `gh-pages` é tratada como artefato gerado. Não edite arquivos nela manualmente.
 
 ## Domínio próprio
 
-Quando `astronautinhas.com.br` for configurado como domínio do Pages, a configuração do Astro pode ser simplificada para publicar diretamente na raiz do domínio. Até lá, o build usa automaticamente o prefixo `/astronautinhas/`.
+Enquanto o endereço for `https://ldmfabio.github.io/astronautinhas/`, o build usa automaticamente o prefixo `/astronautinhas/`.
+
+Quando `astronautinhas.com.br` for configurado como domínio próprio, será necessário ajustar a configuração do Astro para publicar na raiz do domínio.
