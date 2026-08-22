@@ -1,6 +1,6 @@
 PYTHON ?= python3
 
-.PHONY: validate site-install site-dev site-build pdf epub clean
+.PHONY: validate site-install site-dev site-build deploy-pages pdf epub clean
 
 validate:
 	$(PYTHON) scripts/validate_content.py
@@ -13,6 +13,9 @@ site-dev:
 
 site-build: validate
 	npm --prefix site run build
+
+deploy-pages:
+	bash scripts/deploy_pages.sh
 
 pdf: validate
 	$(PYTHON) scripts/build_book.py --format pdf
