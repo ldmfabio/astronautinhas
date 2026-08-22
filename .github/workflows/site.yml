@@ -29,25 +29,19 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-      - name: Configure GitHub Pages
-        uses: actions/configure-pages@v5
-      - name: Install dependencies
-        run: npm --prefix site install
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Validate content
         run: python3 scripts/validate_content.py
-      - name: Build Astro site
-        run: npm --prefix site run build
+
+      - name: Install, build and upload Astro site
+        uses: withastro/action@v6
+        with:
+          path: site
+          package-manager: npm
         env:
           GITHUB_PAGES: 'true'
-      - name: Upload Pages artifact
-        if: github.event_name != 'pull_request'
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: site/dist
 
   deploy:
     if: github.event_name != 'pull_request'
@@ -59,4 +53,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
