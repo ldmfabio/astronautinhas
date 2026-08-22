@@ -14,7 +14,7 @@ if ! git diff --quiet || ! git diff --cached --quiet; then
 fi
 
 python3 scripts/validate_content.py
-npm --prefix site install
+npm --prefix site install --no-package-lock
 GITHUB_PAGES=true npm --prefix site run build
 
 if [[ ! -f "$DIST_DIR/index.html" ]]; then
