@@ -10,7 +10,7 @@ Set-Location $RootDir
 function Invoke-CheckedCommand {
     param(
         [Parameter(Mandatory = $true)][string]$Command,
-        [Parameter(ValueFromRemainingArguments = $true)][string[]]$Arguments
+        [string[]]$Arguments = @()
     )
 
     & $Command @Arguments
@@ -29,15 +29,15 @@ try {
     }
 
     Write-Host 'Validando conteúdo...'
-    Invoke-CheckedCommand python scripts/validate_content.py
+    Invoke-CheckedCommand -Command 'python' -Arguments @('scripts/validate_content.py')
 
     Write-Host 'Instalando dependências do site...'
-    Invoke-CheckedCommand npm --prefix site install
+    Invoke-CheckedCommand -Command 'npm' -Arguments @('--prefix', 'site', 'install')
 
     Write-Host 'Gerando site para GitHub Pages...'
     $env:GITHUB_PAGES = 'true'
     try {
-        Invoke-CheckedCommand npm --prefix site run build
+        Invoke-CheckedCommand -Command 'npm' -Arguments @('--prefix', 'site', 'run', 'build')
     }
     finally {
         Remove-Item Env:GITHUB_PAGES -ErrorAction SilentlyContinue
@@ -56,13 +56,13 @@ try {
 
     try {
         if ($remoteExists) {
-            Invoke-CheckedCommand git worktree add --detach $TempDir "$Remote/$Branch"
+            Invoke-CheckedCommand -Command 'git' -Arguments @('worktree', 'add', '--detach', $TempDir, "$Remote/$Branch")
         }
         else {
-            Invoke-CheckedCommand git worktree add --detach $TempDir HEAD
+            Invoke-CheckedCommand -Command 'git' -Arguments @('worktree', 'add', '--detach', $TempDir, 'HEAD')
             Push-Location $TempDir
             try {
-                Invoke-CheckedCommand git checkout --orphan $Branch
+                Invoke-CheckedCommand -Command 'git' -Arguments @('checkout', '--orphan', $Branch)
                 git rm -rf . 2>$null | Out-Null
             }
             finally {
@@ -76,15 +76,15 @@ try {
 
         Push-Location $TempDir
         try {
-            Invoke-CheckedCommand git add -A
+            Invoke-CheckedCommand -Command 'git' -Arguments @('add', '-A')
             git diff --cached --quiet
             if ($LASTEXITCODE -eq 0) {
                 Write-Host 'Nenhuma alteração no site publicado.'
                 return
             }
 
-            Invoke-CheckedCommand git commit -m 'deploy: publish Astronautinhas site'
-            Invoke-CheckedCommand git push $Remote "HEAD:$Branch"
+            Invoke-CheckedCommand -Command 'git' -Arguments @('commit', '-m', 'deploy: publish Astronautinhas site')
+            Invoke-CheckedCommand -Command 'git' -Arguments @('push', $Remote, "HEAD:$Branch")
         }
         finally {
             Pop-Location
