@@ -9,4 +9,14 @@ const historias = defineCollection({
     publicacao: z.any().optional(), fonte: z.any().optional()
   })
 });
-export const collections = { historias };
+
+const paginas = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: '../content/paginas' }),
+  schema: z.object({
+    titulo: z.string(),
+    ordem: z.number(),
+    draft: z.boolean().default(true)
+  })
+});
+
+export const collections = { historias, paginas };

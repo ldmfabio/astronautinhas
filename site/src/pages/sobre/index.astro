@@ -1,4 +1,24 @@
 ---
+import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+
+const paginas = (await getCollection('paginas'))
+  .filter((pagina) => !pagina.data.draft && pagina.data.ordem > 0)
+  .sort((a, b) => a.data.ordem - b.data.ordem);
+
+const secoes = await Promise.all(
+  paginas.map(async (pagina) => {
+    const { Content } = await render(pagina);
+    return { pagina, Content };
+  })
+);
 ---
-<Base title="Sobre | Astronautinhas"><article class="prose"><h1>Sobre os Astronautinhas</h1><p>O Astronauta Espaguete e a Astronauta Penne nasceram das historinhas criadas em família para Henrique e Mariana.</p><p>Este acervo está sendo organizado para preservar as aventuras em Markdown e publicá-las no site, em livro e em eBook.</p></article></Base>
+<Base title="Sobre | Astronautinhas">
+  <article class="prose">
+    {secoes.map(({ pagina, Content }) => (
+      <section id={pagina.id}>
+        <Content />
+      </section>
+    ))}
+  </article>
+</Base>
