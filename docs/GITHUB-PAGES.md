@@ -16,15 +16,22 @@ O site Astro é publicado a partir da mesma fonte Markdown usada pelo livro e pe
 
 A branch `gh-pages` deve conter somente o site compilado. O conteúdo editorial continua em `main`.
 
-## Publicar o site
+## Publicar no Windows (PowerShell)
 
-A partir de `main`, com o repositório limpo e Git/Node/Python instalados, execute:
+A partir de `main`, com o repositório limpo e Git, Node.js e Python instalados, execute:
 
-```bash
-make deploy-pages
+```powershell
+.\scripts\deploy_pages.ps1
 ```
 
-O comando:
+Se a política de execução do PowerShell bloquear scripts locais, execute apenas para esta sessão:
+
+```powershell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+.\scripts\deploy_pages.ps1
+```
+
+O script:
 
 ```text
 valida o conteúdo
@@ -35,6 +42,20 @@ valida o conteúdo
 ```
 
 A publicação usa `site/dist/` e adiciona `.nojekyll` à branch pública.
+
+## Linux/macOS
+
+O fluxo equivalente continua disponível:
+
+```bash
+make deploy-pages
+```
+
+ou diretamente:
+
+```bash
+./scripts/deploy_pages.sh
+```
 
 ## Publicar uma história
 
@@ -50,7 +71,7 @@ A ilustração também deve existir no caminho indicado por `imagem`.
 
 ## Segurança do deploy
 
-`make deploy-pages` interrompe a publicação se houver alterações locais não commitadas. Assim evitamos publicar um build que não corresponda a um commit conhecido.
+Os scripts interrompem a publicação se houver alterações locais não commitadas. Assim evitamos publicar um build que não corresponda a um commit conhecido.
 
 A branch `gh-pages` é tratada como artefato gerado. Não edite arquivos nela manualmente.
 
