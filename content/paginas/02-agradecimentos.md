@@ -1,9 +1,9 @@
 ---
 titulo: "Agradecimentos"
 ordem: 20
-draft: true
+draft: false
 ---
 
 # Agradecimentos
 
-<!-- Texto de agradecimentos a definir. -->
+À Deus. Por ter nos possibilitado conviver com essas criaturinhas tão especiais, que nos inspiram a criar histórias e aventuras para elas. E nos inspiram a muitas outras coisas, cada dia mais, mais e mais.
