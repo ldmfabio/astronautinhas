@@ -34,14 +34,8 @@ try {
     Write-Host 'Instalando dependências do site...'
     Invoke-CheckedCommand -Command 'npm' -Arguments @('--prefix', 'site', 'install')
 
-    Write-Host 'Gerando site para GitHub Pages...'
-    $env:GITHUB_PAGES = 'true'
-    try {
-        Invoke-CheckedCommand -Command 'npm' -Arguments @('--prefix', 'site', 'run', 'build')
-    }
-    finally {
-        Remove-Item Env:GITHUB_PAGES -ErrorAction SilentlyContinue
-    }
+    Write-Host 'Gerando site para astronautinhas.com.br...'
+    Invoke-CheckedCommand -Command 'npm' -Arguments @('--prefix', 'site', 'run', 'build')
 
     $IndexFile = Join-Path $DistDir 'index.html'
     if (-not (Test-Path $IndexFile)) {
@@ -98,7 +92,7 @@ try {
     }
 
     Write-Host ''
-    Write-Host 'Publicado em: https://ldmfabio.github.io/astronautinhas/'
+    Write-Host 'Publicado em: https://astronautinhas.com.br/'
 }
 finally {
     Set-Location $RootDir
