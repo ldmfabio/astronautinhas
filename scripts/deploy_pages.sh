@@ -15,7 +15,7 @@ fi
 
 python3 scripts/validate_content.py
 npm --prefix site install --no-package-lock
-GITHUB_PAGES=true npm --prefix site run build
+npm --prefix site run build
 
 if [[ ! -f "$DIST_DIR/index.html" ]]; then
   echo "Erro: build não gerou site/dist/index.html." >&2
@@ -57,4 +57,4 @@ touch "$TMP_DIR/.nojekyll"
   git push "$REMOTE" HEAD:"$BRANCH"
 )
 
-echo "Publicado em: https://ldmfabio.github.io/astronautinhas/"
+echo "Publicado em: https://astronautinhas.com.br/"
