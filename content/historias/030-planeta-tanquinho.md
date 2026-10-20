@@ -16,7 +16,7 @@ fonte:
   titulo_conversa: "Escrever aventura espacial"
   autor_prompt: "Nathaniele Bianchi"
   prompt_arquivo: "../../archive/prompts/030-planeta-tanquinho.md"
-  status_importacao: "parcial"
+  status_importacao: "original-importado"
   prompt_original_importado: true
   texto_original_importado: true
   imagem_original_importada: true

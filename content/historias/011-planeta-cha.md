@@ -16,7 +16,7 @@ fonte:
   titulo_conversa: "Aventura no Planeta Chá"
   autor_prompt: "Fábio de Moura"
   prompt_arquivo: "../../archive/prompts/011-planeta-cha.md"
-  status_importacao: "parcial"
+  status_importacao: "original-importado"
   prompt_original_importado: true
   texto_original_importado: true
   imagem_original_importada: true

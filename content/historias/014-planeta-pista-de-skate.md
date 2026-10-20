@@ -16,7 +16,7 @@ fonte:
   titulo_conversa: "Astronautas no Planeta Skate"
   autor_prompt: "Fábio de Moura"
   prompt_arquivo: "../../archive/prompts/014-planeta-pista-de-skate.md"
-  status_importacao: "parcial"
+  status_importacao: "original-importado"
   prompt_original_importado: true
   texto_original_importado: true
   imagem_original_importada: true

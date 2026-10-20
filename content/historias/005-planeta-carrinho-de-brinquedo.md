@@ -16,7 +16,7 @@ fonte:
   titulo_conversa: "Astronauta Espaguete e Penne"
   autor_prompt: "Fábio de Moura"
   prompt_arquivo: "../../archive/prompts/005-planeta-carrinho-de-brinquedo.md"
-  status_importacao: "parcial"
+  status_importacao: "original-importado"
   prompt_original_importado: true
   texto_original_importado: false
   imagem_original_importada: false

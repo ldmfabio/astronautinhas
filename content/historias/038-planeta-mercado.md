@@ -16,7 +16,7 @@ fonte:
   titulo_conversa: "Astronautas no Mercado"
   autor_prompt: "Nathaniele Bianchi"
   prompt_arquivo: "../../archive/prompts/038-planeta-mercado.md"
-  status_importacao: "parcial"
+  status_importacao: "original-importado"
   prompt_original_importado: true
   texto_original_importado: true
   imagem_original_importada: true

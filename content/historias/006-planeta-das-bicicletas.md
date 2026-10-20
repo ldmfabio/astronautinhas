@@ -16,7 +16,7 @@ fonte:
   titulo_conversa: "Astronautas no Planeta das Bicicletas"
   autor_prompt: "Nathaniele Bianchi"
   prompt_arquivo: "../../archive/prompts/006-planeta-das-bicicletas.md"
-  status_importacao: "parcial"
+  status_importacao: "original-importado"
   prompt_original_importado: true
   texto_original_importado: true
   imagem_original_importada: true

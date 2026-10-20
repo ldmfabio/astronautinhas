@@ -16,7 +16,7 @@ fonte:
   titulo_conversa: "Nova história no Planeta Cozinha"
   autor_prompt: "Nathaniele Bianchi"
   prompt_arquivo: "../../archive/prompts/037-planeta-cozinha.md"
-  status_importacao: "parcial"
+  status_importacao: "original-importado"
   prompt_original_importado: true
   texto_original_importado: true
   imagem_original_importada: true

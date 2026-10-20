@@ -16,7 +16,7 @@ fonte:
   titulo_conversa: "Aventuras no Planeta Henrique"
   autor_prompt: "Fábio de Moura"
   prompt_arquivo: "../../archive/prompts/015-planeta-pista-de-henrique.md"
-  status_importacao: "parcial"
+  status_importacao: "original-importado"
   prompt_original_importado: true
   texto_original_importado: true
   imagem_original_importada: true
