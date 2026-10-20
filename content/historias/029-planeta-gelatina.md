@@ -3,6 +3,7 @@ id: "029"
 numero: 29
 titulo: "O Planeta Gelatina"
 planeta: "Gelatina"
+categoria: "comidas"
 slug: "planeta-gelatina"
 data: 2026-08-08
 imagem: "../../assets/historias/029-planeta-gelatina/ilustracao.png"
