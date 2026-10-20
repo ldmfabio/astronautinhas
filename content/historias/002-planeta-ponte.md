@@ -3,6 +3,7 @@ id: "002"
 numero: 2
 titulo: "O Planeta Ponte"
 planeta: "Ponte"
+categoria: "lugares"
 slug: "planeta-ponte"
 data: 2026-07-04
 imagem: "../../assets/historias/002-planeta-ponte/ilustracao.png"
