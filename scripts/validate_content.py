@@ -49,8 +49,8 @@ for path in files:
         if not asset.exists():
             errors.append(f"{path.name}: imagem não encontrada: {image}")
 
-if len(files) != 39:
-    errors.append(f"catálogo inicial esperado com 39 histórias; encontrados {len(files)}")
+if len(files) < 39:
+    errors.append(f"catálogo inicial esperado com pelo menos 39 histórias; encontrados {len(files)}")
 if errors:
     print("\n".join("ERRO: " + e for e in errors))
     sys.exit(1)
