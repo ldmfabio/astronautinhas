@@ -3,6 +3,7 @@ id: "008"
 numero: 8
 titulo: "O Planeta Foguete"
 planeta: "Foguete"
+categoria: "diversos"
 slug: "planeta-foguete"
 data: 2026-07-12
 imagem: "../../assets/historias/008-planeta-foguete/ilustracao.png"
