@@ -6,7 +6,7 @@ planeta: "Casamento do Papai e da Mamãe"
 slug: "planeta-casamento-do-papai-e-da-mamae"
 data: 2026-09-10
 imagem: "../../assets/historias/047-planeta-casamento-do-papai-e-da-mamae/ilustracao.png"
-draft: true
+draft: false
 publicacao:
   site: true
   livro: true
@@ -16,10 +16,10 @@ fonte:
   titulo_conversa: "Casamento Papai e Mamãe"
   autor_prompt: "Nathaniele Bianchi"
   prompt_arquivo: "../../archive/prompts/047-planeta-casamento-do-papai-e-da-mamae.md"
-  status_importacao: "parcial"
+  status_importacao: "original-importado"
   prompt_original_importado: true
-  texto_original_importado: false
-  imagem_original_importada: false
+  texto_original_importado: true
+  imagem_original_importada: true
 ---
 
 ## 🚀 Astronauta Espaguete e Astronauta Penne no Planeta Casamento
