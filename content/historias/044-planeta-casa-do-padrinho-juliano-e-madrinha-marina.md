@@ -3,6 +3,7 @@ id: "044"
 numero: 44
 titulo: "O Planeta Casa do padrinho Juliano e madrinha Marina"
 planeta: "Casa do padrinho Juliano e madrinha Marina"
+categoria: "familia"
 slug: "planeta-casa-do-padrinho-juliano-e-madrinha-marina"
 data: 2026-10-20
 imagem: "../../assets/historias/044-planeta-casa-do-padrinho-juliano-e-madrinha-marina/ilustracao.png"
