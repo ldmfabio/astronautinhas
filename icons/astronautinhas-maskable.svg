@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title">
+  <title id="title">Astronautinhas</title>
+  <rect width="512" height="512" fill="#4338ca"/>
+  <circle cx="256" cy="256" r="170" fill="#4338ca"/>
+  <ellipse cx="256" cy="315" rx="112" ry="54" fill="#f3f4f6"/>
+  <path d="M176 300h160l-16 50H192z" fill="#d1d5db"/>
+  <path d="M208 200c38-44 58-44 96 0" fill="none" stroke="#fbbf24" stroke-width="22" stroke-linecap="round"/>
+  <path d="M204 224c32-30 72-30 104 0" fill="none" stroke="#f59e0b" stroke-width="16" stroke-linecap="round"/>
+  <path d="M222 150c0-28 15-50 34-50s34 22 34 50" fill="#fff" stroke="#d1d5db" stroke-width="12"/>
+  <circle cx="256" cy="140" r="18" fill="#93c5fd"/>
+  <path d="M164 320l-38 28 48 7" fill="#f97316"/>
+  <path d="M348 320l38 28-48 7" fill="#f97316"/>
+</svg>
