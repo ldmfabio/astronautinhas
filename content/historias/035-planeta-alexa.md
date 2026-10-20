@@ -3,6 +3,7 @@ id: "035"
 numero: 35
 titulo: "O Planeta Alexa"
 planeta: "Alexa"
+categoria: "diversos"
 slug: "planeta-alexa"
 data: 2026-08-15
 imagem: "../../assets/historias/035-planeta-alexa/ilustracao.png"
