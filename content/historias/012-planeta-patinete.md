@@ -3,6 +3,7 @@ id: "012"
 numero: 12
 titulo: "O Planeta Patinete"
 planeta: "Patinete"
+categoria: "diversos"
 slug: "planeta-patinete"
 data: 2026-07-16
 imagem: "../../assets/historias/012-planeta-patinete/ilustracao.png"
