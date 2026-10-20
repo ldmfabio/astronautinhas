@@ -3,6 +3,7 @@ id: "003"
 numero: 3
 titulo: "O Planeta Chocolate"
 planeta: "Chocolate"
+categoria: "comidas"
 slug: "planeta-chocolate"
 data: 2026-07-07
 imagem: "../../assets/historias/003-planeta-chocolate/ilustracao.png"
