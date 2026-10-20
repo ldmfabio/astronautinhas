@@ -3,6 +3,7 @@ id: "005"
 numero: 5
 titulo: "O Planeta Carrinho de Brinquedo"
 planeta: "Carrinho de Brinquedo"
+categoria: "diversos"
 slug: "planeta-carrinho-de-brinquedo"
 data: 2026-07-09
 imagem: "../../assets/historias/005-planeta-carrinho-de-brinquedo/ilustracao.png"
