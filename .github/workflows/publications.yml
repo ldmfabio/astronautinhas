@@ -1,14 +1,7 @@
 name: Build publications
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - 'content/**'
-      - 'assets/**'
-      - 'metadata.yaml'
-      - 'publishing/**'
-      - 'scripts/**'
+
 jobs:
   build:
     runs-on: ubuntu-latest
