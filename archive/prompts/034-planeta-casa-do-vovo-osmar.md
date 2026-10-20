@@ -13,7 +13,8 @@ estado_registro: "parcial"
 ## Prompt da história
 
 ```text
-Me gere uma nova história do astronauta espaguete e da astronauta penne, em texto, de no máximo 2 minutos de leitura, agora visitando o planeta Casa do Vovô Osmar (foto em anexo). A nave deles é em forma de panela brilhante. A última frase que eles deverão dizer deve ser “até a próxima aventura”.
+Me gere uma nova história do astronauta espaguete e da astronauta penne, em texto, de no máximo 2 minutos de leitura, agora visitando o planeta Casa do Vô Osmar. A nave deles é em forma de panela brilhante. A última frase que eles deverão dizer deve ser “até a próxima aventura”.
+A Casa do Vô Osmar tem um relógio (tic-tac) de parede que é de corda, tem uma cachorrinha pretinha pequena, vira-lata, chamada pretinha, tem um cachorro lhasa chamado Fred, o Vovô mora numa subida de morro, tem uma lixeira mágica no banheiro, tem uma Maria da roupa pretinha, sempre tem café na mesa, tem bolinho de aniversário e tem os astronautas cantando parabéns pro aniversário do vovô Osmar.
 ```
 
 ## Pedidos posteriores visíveis
