@@ -3,6 +3,7 @@ id: "042"
 numero: 42
 titulo: "O Planeta Caça ao Tesouro"
 planeta: "Caça ao Tesouro"
+categoria: "momentos"
 slug: "planeta-caca-ao-tesouro"
 data: 2026-10-20
 imagem: "../../assets/historias/042-planeta-caca-ao-tesouro/ilustracao.png"
