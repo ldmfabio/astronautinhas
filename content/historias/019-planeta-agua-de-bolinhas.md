@@ -3,6 +3,7 @@ id: "019"
 numero: 19
 titulo: "O Planeta Água de Bolinhas"
 planeta: "Água de Bolinhas"
+categoria: "diversos"
 slug: "planeta-agua-de-bolinhas"
 data: 2026-07-28
 imagem: "../../assets/historias/019-planeta-agua-de-bolinhas/ilustracao.png"
