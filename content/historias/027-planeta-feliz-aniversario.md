@@ -3,6 +3,7 @@ id: "027"
 numero: 27
 titulo: "O Planeta Feliz Aniversário"
 planeta: "Feliz Aniversário"
+categoria: "momentos"
 slug: "planeta-feliz-aniversario"
 data: 2026-08-06
 imagem: "../../assets/historias/027-planeta-feliz-aniversario/ilustracao.png"
