@@ -3,6 +3,7 @@ id: "021"
 numero: 21
 titulo: "O Planeta Casa da Tia Ilka"
 planeta: "Casa da Tia Ilka"
+categoria: "familia"
 slug: "planeta-casa-da-tia-ilka"
 data: 2026-07-30
 imagem: "../../assets/historias/021-planeta-casa-da-tia-ilka/ilustracao.png"
