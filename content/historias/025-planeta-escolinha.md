@@ -3,6 +3,7 @@ id: "025"
 numero: 25
 titulo: "O Planeta Escolinha"
 planeta: "Escolinha"
+categoria: "lugares"
 slug: "planeta-escolinha"
 data: 2026-08-04
 imagem: "../../assets/historias/025-planeta-escolinha/ilustracao.png"
