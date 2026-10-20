@@ -3,6 +3,7 @@ id: "039"
 numero: 39
 titulo: "O Planeta Sopa"
 planeta: "Sopa"
+categoria: "comidas"
 slug: "planeta-sopa"
 data: 2026-08-20
 imagem: "../../assets/historias/039-planeta-sopa/ilustracao.png"
