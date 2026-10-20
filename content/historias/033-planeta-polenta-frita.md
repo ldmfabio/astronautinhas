@@ -3,6 +3,7 @@ id: "033"
 numero: 33
 titulo: "O Planeta Polenta Frita"
 planeta: "Polenta Frita"
+categoria: "comidas"
 slug: "planeta-polenta-frita"
 data: 2026-08-13
 imagem: "../../assets/historias/033-planeta-polenta-frita/ilustracao.png"
