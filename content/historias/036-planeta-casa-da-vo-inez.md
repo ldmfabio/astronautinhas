@@ -3,6 +3,7 @@ id: "036"
 numero: 36
 titulo: "O Planeta Casa da Vó Inez"
 planeta: "Casa da Vó Inez"
+categoria: "familia"
 slug: "planeta-casa-da-vo-inez"
 data: 2026-08-16
 imagem: "../../assets/historias/036-planeta-casa-da-vo-inez/ilustracao.png"
