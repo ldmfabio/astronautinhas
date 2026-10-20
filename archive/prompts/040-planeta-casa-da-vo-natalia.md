@@ -13,7 +13,8 @@ estado_registro: "parcial"
 ## Prompt da história
 
 ```text
-A preencher com o prompt original da história.
+Me gere uma nova história do astronauta espaguete e da astronauta penne, em texto, de no máximo 2 minutos de leitura, agora visitando a casa da Vovó Natália. A nave deles é em forma de panela brilhante. A última frase que eles deverão dizer deve ser “até a próxima aventura”.
+Na casa da vovó Natália tem Maria do off, Maria de lavar roupa (roupa do espaguete e da penne e a outra que lava roupa dos cachorrinhos), horta com tomate, alface, cebolinha, manjericão, e também tem pé de jaboticaba, nona. Tem frutas pra comer, laranja, limão, morango, tangerina, tem também os brinquedos do henrique e da Mariana (espaguete e penne), tem salada de repolho, de tomate, pepino, beterraba…
 ```
 
 ## Pedidos posteriores visíveis

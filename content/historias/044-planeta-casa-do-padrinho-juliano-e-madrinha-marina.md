@@ -24,4 +24,68 @@ fonte:
 
 # O Planeta Casa do padrinho Juliano e madrinha Marina
 
-<!-- IMPORTAR AQUI o texto original da história. -->
+## 🚀 Astronauta Espaguete e Astronauta Penne no Planeta Casa dos Padrinhos
+
+A panela brilhante cruzava o espaço fazendo:
+
+— **Fuuuuush! Plim! Plim!**
+
+Lá dentro, o Astronauta Espaguete olhou pelo vidro.
+
+— Penne! Chegamos ao **Planeta Casa do Padrinho Juliano, da Madrinha Marina, da prima Juliana e da prima Maria Eduarda!**
+
+A panela pousou lá embaixo, mas havia um pequeno problema: a casa ficava em um apartamento, **lááá no alto!**
+
+— Quantas escadas! — disse Penne.
+
+Subiram um lance, depois outro, mais outro…
+
+— Ufa! — Espaguete falou, chegando finalmente à porta.
+
+Quem veio recebê-los primeiro foi **Max**, o pequeno yorkshire!
+
+— Au! Au! Au!
+
+Max correu de um lado para o outro, cheirou os astronautas e quase entrou dentro da panela espacial.
+
+Lá estavam o **Padrinho Juliano, a Madrinha Marina, a prima Juliana e a pequenina Maria Eduarda**, esperando por eles.
+
+A exploração começou!
+
+Na lavanderia encontraram a **Maria de lavar roupa**:
+
+— Vruuum… vruuum… vruuum!
+
+Na cozinha estava a **Maria de fazer café**:
+
+— Psssshhh… glub-glub-glub!
+
+— Hummm! Cheirinho de café! — disse Espaguete.
+
+Então a prima Juliana mostrou sua **bicicleta**.
+
+— Essa deve ser a bicicleta espacial mais rápida deste planeta!
+
+Penne apertou uma campainha imaginária:
+
+— **Trim-trim!**
+
+Mas, de repente…
+
+— **Dlim-dlim-dlão!**
+
+Era um **violão**!
+
+Padrinho Juliano começou a tocar, Juliana dançou, Maria Eduarda bateu as mãozinhas e até Max começou a latir acompanhando a música:
+
+— Au! Au! Auuu!
+
+Depois de tanta diversão, chegou a hora de voltar. Todos deram um grande abraço nos astronautas.
+
+Espaguete e Penne desceram todas aquelas escadas, entraram novamente na panela brilhante e acenaram pela janela.
+
+— Tchau, Padrinho Juliano! Tchau, Madrinha Marina! Tchau, Juliana! Tchau, Maria Eduarda! Tchau, Max!
+
+E, enquanto a panela brilhante subia para o céu estrelado, os dois disseram juntos:
+
+— **até a próxima aventura**.

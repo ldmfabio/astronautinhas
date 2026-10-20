@@ -13,7 +13,15 @@ estado_registro: "parcial"
 ## Prompt da história
 
 ```text
-A preencher com o prompt original da história.
+Hoje os aventureiros vão para o planeta casa do tio bruno
+Na casa tem uma lareira 
+Fogão a lenha onde ele sempre faz uma polenta deliciosa 
+Tem árvores de limão, amora, tangerina 
+Tem Maria e é lavar roupa 
+Tio é um policial 
+Tem uma camionete branca 
+Toca bateria 
+Tem 2 gatas
 ```
 
 ## Pedidos posteriores visíveis

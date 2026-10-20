@@ -13,7 +13,8 @@ estado_registro: "parcial"
 ## Prompt da história
 
 ```text
-A preencher com o prompt original da história.
+Me gere uma nova história do astronauta espaguete e da astronauta penne, em texto, de no máximo 2 minutos de leitura, agora visitando o planeta Prima Bruna e Primo Ruan. A nave deles é em forma de panela brilhante. A última frase que eles deverão dizer deve ser “até a próxima aventura”.
+Neste planeta tem um quarto subterrâneo, tem escadas, tem suco de abacaxi, tem um barco museu, tem uma igreja bem no alto do morro (Santa Luzia), tem ruas bem estreitas, e dá pra andar bastante de bicicleta.
 ```
 
 ## Pedidos posteriores visíveis

@@ -13,12 +13,24 @@ estado_registro: "parcial"
 ## Prompt da história
 
 ```text
-A preencher com o prompt original da história.
+Hoje os astronautas vão para o planeta caça ao tesouro
 ```
 
 ## Pedidos posteriores visíveis
 
-A preencher.
+Colocar espaguete e pene no lugar das duas crianças e colocar a espelho dentro do baú com a foto da nossa família
+
+__
+
+Está feios 
+Os astronautas são diferente desse que colocou 
+
+E na história a nossa família aparece completa jo espelho
+
+__
+
+Tirar eu e o Fábio da imagem 
+Deixar só jo espelho
 
 ## Estado da migração
 

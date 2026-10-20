@@ -13,7 +13,9 @@ estado_registro: "parcial"
 ## Prompt da história
 
 ```text
-A preencher com o prompt original da história.
+Me gere uma nova história do astronauta espaguete e da astronauta penne, em texto, de no máximo 2 minutos de leitura, agora visitando o planeta casa do padrinho Juliano, da Madrinha Marina, da prima Juliana e da prima Maria Eduarda. A nave deles é em forma de panela brilhante. A última frase que eles deverão dizer deve ser “até a próxima aventura”.
+Eles estão na foto em anexo.
+Na casa deles tem o Max, que é um yorkshire, tem muitas escadas pra chegar, pois é um apartamento, tem uma Maria de lavar roupa, Maria de fazer café, tem a bicicleta da prima Juliana, tem um violão.
 ```
 
 ## Pedidos posteriores visíveis
