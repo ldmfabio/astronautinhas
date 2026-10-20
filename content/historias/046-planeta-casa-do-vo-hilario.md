@@ -3,6 +3,7 @@ id: "046"
 numero: 46
 titulo: "O Planeta Casa do Vô Hilário"
 planeta: "Casa do Vô Hilário"
+categoria: "familia"
 slug: "planeta-casa-do-vo-hilario"
 data: 2026-10-20
 imagem: "../../assets/historias/046-planeta-casa-do-vo-hilario/ilustracao.png"
