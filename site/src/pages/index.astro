@@ -3,8 +3,8 @@ import Base from '../layouts/Base.astro';
 import { getCollection } from 'astro:content';
 const stories=(await getCollection('historias')).filter(s=>!s.data.draft && s.data.publicacao?.site !== false).sort((a,b)=>b.data.numero-a.data.numero).slice(0,6);
 const base = import.meta.env.BASE_URL;
-const url = (path = '') => `${base}${path.replace(/^\\/+/, '')}`;
-const assetUrl = (path) => `${base}${path.replace(/^.*?assets\\//, 'assets/')}`;
+const url = (path = '') => `${base}${path.replace(/^\/+/, '')}`;
+const assetUrl = (path) => `${base}${path.replace(/^.*?assets\//, 'assets/')}`;
 ---
 <Base>
 <section class="hero"><p>🚀 🍝</p><h1>Astronautinhas</h1><p>As aventuras do Astronauta Espaguete e da Astronauta Penne.</p><a class="button" href={url('historias/')}>Conheça as aventuras</a></section>
