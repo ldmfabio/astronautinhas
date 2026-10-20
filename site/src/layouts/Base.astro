@@ -3,6 +3,7 @@ import '../styles/global.css';
 const { title = 'Astronautinhas', description = 'As aventuras do Astronauta Espaguete e da Astronauta Penne' } = Astro.props;
 const base = import.meta.env.BASE_URL;
 const url = (path = '') => `${base}${path.replace(/^\/+/, '')}`;
+const isProd = import.meta.env.PROD;
 ---
 <!doctype html>
 <html lang="pt-BR">
@@ -23,7 +24,7 @@ const url = (path = '') => `${base}${path.replace(/^\/+/, '')}`;
 <header class="topbar"><a class="brand" href={url()}>🚀 Astronautinhas</a><nav><a href={url('historias/')}>Histórias</a><a href={url('sobre/')}>Sobre</a></nav></header>
 <main><slot /></main>
 <footer><strong>Astronautinhas</strong><span>As aventuras do Astronauta Espaguete e da Astronauta Penne.</span></footer>
-{import.meta.env.PROD && (
+{isProd && (
   <script is:inline>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
