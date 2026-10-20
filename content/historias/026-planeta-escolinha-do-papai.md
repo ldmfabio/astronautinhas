@@ -3,6 +3,7 @@ id: "026"
 numero: 26
 titulo: "O Planeta Escolinha do Papai"
 planeta: "Escolinha do Papai"
+categoria: "lugares"
 slug: "planeta-escolinha-do-papai"
 data: 2026-08-05
 imagem: "../../assets/historias/026-planeta-escolinha-do-papai/ilustracao.png"

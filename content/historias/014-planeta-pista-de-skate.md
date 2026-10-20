@@ -3,6 +3,7 @@ id: "014"
 numero: 14
 titulo: "O Planeta Pista de Skate"
 planeta: "Pista de Skate"
+categoria: "lugares"
 slug: "planeta-pista-de-skate"
 data: 2026-07-19
 imagem: "../../assets/historias/014-planeta-pista-de-skate/ilustracao.png"

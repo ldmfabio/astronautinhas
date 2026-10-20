@@ -3,6 +3,7 @@ id: "031"
 numero: 31
 titulo: "O Planeta do Super-Homem"
 planeta: "Super-Homem"
+categoria: "diversos"
 slug: "planeta-super-homem"
 data: 2026-08-11
 imagem: "../../assets/historias/031-planeta-super-homem/ilustracao.png"

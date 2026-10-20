@@ -3,6 +3,7 @@ id: "010"
 numero: 10
 titulo: "O Planeta Festa Junina"
 planeta: "Festa Junina"
+categoria: "momentos"
 slug: "planeta-festa-junina"
 data: 2026-07-14
 imagem: "../../assets/historias/010-planeta-festa-junina/ilustracao.png"

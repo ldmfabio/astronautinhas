@@ -3,6 +3,7 @@ id: "004"
 numero: 4
 titulo: "O Planeta Sino"
 planeta: "Sino"
+categoria: "lugares"
 slug: "planeta-sino"
 data: 2026-07-08
 imagem: "../../assets/historias/004-planeta-sino/ilustracao.png"

@@ -3,6 +3,7 @@ id: "001"
 numero: 1
 titulo: "O Planeta Florianópolis"
 planeta: "Florianópolis"
+categoria: "lugares"
 slug: "planeta-florianopolis"
 data: 2026-07-03
 imagem: "../../assets/historias/001-planeta-florianopolis/ilustracao.png"

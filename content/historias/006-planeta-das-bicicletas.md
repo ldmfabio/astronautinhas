@@ -3,6 +3,7 @@ id: "006"
 numero: 6
 titulo: "O Planeta Bicicletas"
 planeta: "Bicicletas"
+categoria: "diversos"
 slug: "planeta-das-bicicletas"
 data: 2026-07-10
 imagem: "../../assets/historias/006-planeta-das-bicicletas/ilustracao.png"

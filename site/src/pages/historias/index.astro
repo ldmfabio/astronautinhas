@@ -1,9 +1,83 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { getCollection } from 'astro:content';
-const stories=(await getCollection('historias')).filter(s=>!s.data.draft && s.data.publicacao?.site !== false).sort((a,b)=>a.data.numero-b.data.numero);
+const stories=(await getCollection('historias')).filter(s=>!s.data.draft && s.data.publicacao?.site !== false).sort((a,b)=>b.data.numero-a.data.numero);
 const base = import.meta.env.BASE_URL;
 const url = (path = '') => `${base}${path.replace(/^\/+/, '')}`;
 const assetUrl = (path) => `${base}${path.replace(/^.*?assets\//, 'assets/')}`;
+
+const filters = [
+  ['todas', '✨', 'Todas'],
+  ['familia', '👨‍👩‍👧‍👦', 'Família'],
+  ['lugares', '🌎', 'Cidades e Lugares'],
+  ['comidas', '🍕', 'Comidas'],
+  ['casa', '🏠', 'Cômodos e Casa'],
+  ['momentos', '🎉', 'Momentos'],
+  ['diversos', '🚀', 'Diversos']
+];
 ---
-<Base title="Histórias | Astronautinhas"><h1>Todas as histórias</h1>{stories.length ? <section class="grid">{stories.map(s=><a class="card" href={url(`historias/${s.data.slug}/`)}><img src={assetUrl(s.data.imagem)} alt={`Ilustração de ${s.data.titulo}`}/><div class="content"><small>Aventura #{s.data.numero}</small><h2>{s.data.titulo}</h2></div></a>)}</section> : <section class="empty"><h2>Acervo em preparação</h2><p>Nenhuma história foi liberada para publicação ainda.</p></section>}</Base>
+<Base title="Histórias | Astronautinhas">
+  <section class="stories-header">
+    <h1>Todas as histórias</h1>
+    <p>Escolha uma categoria ou explore todas as aventuras.</p>
+    <div class="story-filters" role="group" aria-label="Filtrar histórias por categoria">
+      {filters.map(([value, emoji, label], index) => (
+        <button class="filter-chip" type="button" data-filter={value} aria-pressed={index === 0 ? 'true' : 'false'}>
+          <span aria-hidden="true">{emoji}</span> {label}
+        </button>
+      ))}
+    </div>
+  </section>
+
+  {stories.length ? (
+    <>
+      <section class="grid grid-stories" id="stories-grid">
+        {stories.map(s => (
+          <a class="card story-card" data-category={s.data.categoria} href={url(`historias/${s.data.slug}/`)}>
+            <img src={assetUrl(s.data.imagem)} alt={`Ilustração de ${s.data.titulo}`} loading="lazy"/>
+            <div class="content"><small>Aventura #{s.data.numero}</small><h2>{s.data.titulo}</h2></div>
+          </a>
+        ))}
+      </section>
+      <div class="load-more-wrap"><button class="button secondary" id="load-more" type="button">Carregar mais</button></div>
+      <p class="empty filtered-empty" id="filtered-empty" hidden>Nenhuma história encontrada nesta categoria.</p>
+    </>
+  ) : (
+    <section class="empty"><h2>Acervo em preparação</h2><p>Nenhuma história foi liberada para publicação ainda.</p></section>
+  )}
+
+  <script is:inline>
+    (() => {
+      const PAGE_SIZE = 8;
+      const cards = Array.from(document.querySelectorAll('.story-card'));
+      const chips = Array.from(document.querySelectorAll('.filter-chip'));
+      const loadMore = document.getElementById('load-more');
+      const empty = document.getElementById('filtered-empty');
+      let activeFilter = 'todas';
+      let visibleCount = PAGE_SIZE;
+
+      const update = () => {
+        const matching = cards.filter(card => activeFilter === 'todas' || card.dataset.category === activeFilter);
+        cards.forEach(card => card.hidden = true);
+        matching.slice(0, visibleCount).forEach(card => card.hidden = false);
+
+        if (loadMore) loadMore.hidden = matching.length <= visibleCount;
+        if (empty) empty.hidden = matching.length !== 0;
+      };
+
+      chips.forEach(chip => chip.addEventListener('click', () => {
+        activeFilter = chip.dataset.filter || 'todas';
+        visibleCount = PAGE_SIZE;
+        chips.forEach(item => item.setAttribute('aria-pressed', String(item === chip)));
+        update();
+      }));
+
+      loadMore?.addEventListener('click', () => {
+        visibleCount += PAGE_SIZE;
+        update();
+      });
+
+      update();
+    })();
+  </script>
+</Base>

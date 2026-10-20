@@ -3,6 +3,7 @@ id: "032"
 numero: 32
 titulo: "O Planeta Praia"
 planeta: "Praia"
+categoria: "lugares"
 slug: "planeta-praia"
 data: 2026-08-12
 imagem: "../../assets/historias/032-planeta-praia/ilustracao.png"

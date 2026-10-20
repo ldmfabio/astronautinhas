@@ -3,6 +3,7 @@ id: "030"
 numero: 30
 titulo: "O Planeta Tanquinho"
 planeta: "Tanquinho"
+categoria: "casa"
 slug: "planeta-tanquinho"
 data: 2026-08-10
 imagem: "../../assets/historias/030-planeta-tanquinho/ilustracao.png"

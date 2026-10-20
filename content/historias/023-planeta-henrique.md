@@ -3,6 +3,7 @@ id: "023"
 numero: 23
 titulo: "O Planeta Henrique"
 planeta: "Henrique"
+categoria: "diversos"
 slug: "planeta-henrique"
 data: 2026-08-01
 imagem: "../../assets/historias/023-planeta-henrique/ilustracao.png"

@@ -3,6 +3,7 @@ id: "011"
 numero: 11
 titulo: "O Planeta Chá"
 planeta: "Chá"
+categoria: "comidas"
 slug: "planeta-cha"
 data: 2026-07-15
 imagem: "../../assets/historias/011-planeta-cha/ilustracao.png"

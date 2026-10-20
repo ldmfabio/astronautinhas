@@ -5,6 +5,7 @@ const historias = defineCollection({
   loader: glob({ pattern: '**/*.md', base: '../content/historias' }),
   schema: z.object({
     id: z.string(), numero: z.number(), titulo: z.string(), planeta: z.string(), slug: z.string(),
+    categoria: z.enum(['familia', 'lugares', 'comidas', 'casa', 'momentos', 'diversos']),
     data: z.coerce.date(), imagem: z.string(), draft: z.boolean().default(true),
     publicacao: z.any().optional(), fonte: z.any().optional()
   })

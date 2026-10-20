@@ -3,6 +3,7 @@ id: "020"
 numero: 20
 titulo: "O Planeta Casa da Tia Dulce"
 planeta: "Casa da Tia Dulce"
+categoria: "familia"
 slug: "planeta-casa-da-tia-dulce"
 data: 2026-07-29
 imagem: "../../assets/historias/020-planeta-casa-da-tia-dulce/ilustracao.png"

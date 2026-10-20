@@ -3,6 +3,7 @@ id: "022"
 numero: 22
 titulo: "O Planeta Férias do Papai"
 planeta: "Férias do Papai"
+categoria: "momentos"
 slug: "planeta-ferias-do-papai"
 data: 2026-07-31
 imagem: "../../assets/historias/022-planeta-ferias-do-papai/ilustracao.png"

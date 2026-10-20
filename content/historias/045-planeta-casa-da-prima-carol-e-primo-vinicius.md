@@ -3,6 +3,7 @@ id: "045"
 numero: 45
 titulo: "O Planeta Casa da prima Carol e primo Vinicius"
 planeta: "Casa da prima Carol e primo Vinicius"
+categoria: "familia"
 slug: "planeta-casa-da-prima-carol-e-primo-vinicius"
 data: 2026-10-20
 imagem: "../../assets/historias/045-planeta-casa-da-prima-carol-e-primo-vinicius/ilustracao.png"

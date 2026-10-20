@@ -3,6 +3,7 @@ id: "017"
 numero: 17
 titulo: "O Planeta Brasília"
 planeta: "Brasília"
+categoria: "lugares"
 slug: "planeta-brasilia"
 data: 2026-07-26
 imagem: "../../assets/historias/017-planeta-brasilia/ilustracao.png"

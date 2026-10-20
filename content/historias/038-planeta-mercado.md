@@ -3,6 +3,7 @@ id: "038"
 numero: 38
 titulo: "O Planeta Mercado"
 planeta: "Mercado"
+categoria: "lugares"
 slug: "planeta-mercado"
 data: 2026-08-19
 imagem: "../../assets/historias/038-planeta-mercado/ilustracao.png"

@@ -3,6 +3,7 @@ id: "040"
 numero: 40
 titulo: "O Planeta Casa da Vó Natália"
 planeta: "Casa da Vó Natália"
+categoria: "familia"
 slug: "planeta-casa-da-vo-natalia"
 data: 2026-10-20
 imagem: "../../assets/historias/040-planeta-casa-da-vo-natalia/ilustracao.png"

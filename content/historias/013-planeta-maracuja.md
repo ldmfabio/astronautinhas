@@ -3,6 +3,7 @@ id: "013"
 numero: 13
 titulo: "O Planeta Maracujá"
 planeta: "Maracujá"
+categoria: "comidas"
 slug: "planeta-maracuja"
 data: 2026-07-17
 imagem: "../../assets/historias/013-planeta-maracuja/ilustracao.png"

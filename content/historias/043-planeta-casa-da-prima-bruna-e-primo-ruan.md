@@ -3,6 +3,7 @@ id: "043"
 numero: 43
 titulo: "O Planeta Casa da prima Bruna e primo Ruan"
 planeta: "Casa da prima Bruna e primo Ruan"
+categoria: "familia"
 slug: "planeta-casa-da-prima-bruna-e-primo-ruan"
 data: 2026-10-20
 imagem: "../../assets/historias/043-planeta-casa-da-prima-bruna-e-primo-ruan/ilustracao.png"

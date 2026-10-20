@@ -3,6 +3,7 @@ id: "028"
 numero: 28
 titulo: "O Planeta Torta de Morango"
 planeta: "Torta de Morango"
+categoria: "comidas"
 slug: "planeta-torta-de-morango"
 data: 2026-08-07
 imagem: "../../assets/historias/028-planeta-torta-de-morango/ilustracao.png"

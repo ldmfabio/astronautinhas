@@ -3,6 +3,7 @@ id: "018"
 numero: 18
 titulo: "O Planeta Avião"
 planeta: "Avião"
+categoria: "diversos"
 slug: "planeta-aviao"
 data: 2026-07-27
 imagem: "../../assets/historias/018-planeta-aviao/ilustracao.png"

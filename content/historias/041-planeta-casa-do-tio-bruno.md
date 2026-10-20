@@ -3,6 +3,7 @@ id: "041"
 numero: 41
 titulo: "O Planeta Casa do Tio Bruno"
 planeta: "Casa do Tio Bruno"
+categoria: "familia"
 slug: "planeta-casa-do-tio-bruno"
 data: 2026-10-20
 imagem: "../../assets/historias/041-planeta-casa-do-tio-bruno/ilustracao.png"

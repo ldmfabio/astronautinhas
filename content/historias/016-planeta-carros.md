@@ -3,6 +3,7 @@ id: "016"
 numero: 16
 titulo: "O Planeta Carros"
 planeta: "Carros"
+categoria: "diversos"
 slug: "planeta-carros"
 data: 2026-07-23
 imagem: "../../assets/historias/016-planeta-carros/ilustracao.png"
