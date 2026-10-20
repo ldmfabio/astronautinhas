@@ -3,6 +3,7 @@ id: "037"
 numero: 37
 titulo: "O Planeta Cozinha"
 planeta: "Cozinha"
+categoria: "casa"
 slug: "planeta-cozinha"
 data: 2026-08-18
 imagem: "../../assets/historias/037-planeta-cozinha/ilustracao.png"
