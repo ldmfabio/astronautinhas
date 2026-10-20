@@ -3,6 +3,7 @@ id: "009"
 numero: 9
 titulo: "O Planeta Café"
 planeta: "Café"
+categoria: "comidas"
 slug: "planeta-cafe"
 data: 2026-07-13
 imagem: "../../assets/historias/009-planeta-cafe/ilustracao.png"
