@@ -3,6 +3,7 @@ id: "034"
 numero: 34
 titulo: "O Planeta Casa do Vovô Osmar"
 planeta: "Casa do Vovô Osmar"
+categoria: "familia"
 slug: "planeta-casa-do-vovo-osmar"
 data: 2026-08-15
 imagem: "../../assets/historias/034-planeta-casa-do-vovo-osmar/ilustracao.png"
