@@ -3,6 +3,7 @@ id: "024"
 numero: 24
 titulo: "O Planeta Espaguete"
 planeta: "Espaguete"
+categoria: "diversos"
 slug: "planeta-espaguete"
 data: 2026-08-02
 imagem: "../../assets/historias/024-planeta-espaguete/ilustracao.png"
