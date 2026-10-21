@@ -17,4 +17,4 @@ Nossos canais:
 - [Instagram](https://www.instagram.com/ldmfabio)
 - [LinkedIn](https://www.linkedin.com/in/ldmfabio)
 - [GitHub](https://github.com/ldmfabio)
-- [Email](mailto:ldmfabio@gmailc.com
+- [Email](mailto:ldmfabio@gmail.com
