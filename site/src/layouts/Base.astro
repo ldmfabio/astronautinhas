@@ -19,6 +19,17 @@ const isProd = import.meta.env.PROD;
 <link rel="manifest" href={url('manifest.webmanifest')}/>
 <link rel="icon" href={url('icons/astronautinhas.svg')} type="image/svg+xml"/>
 <title>{title}</title>
+{isProd && (
+  <>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-F8Y59SGWJ2"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-F8Y59SGWJ2');
+    </script>
+  </>
+)}
 </head>
 <body>
 <header class="topbar"><a class="brand" href={url()}>🚀 Astronautinhas</a><nav><a href={url('historias/')}>Histórias</a><a href={url('sobre/')}>Sobre</a></nav></header>
