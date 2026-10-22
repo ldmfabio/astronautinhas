@@ -6,5 +6,30 @@ const {story}=Astro.props; const {Content}=await render(story);
 const base = import.meta.env.BASE_URL;
 const url = (path = '') => `${base}${path.replace(/^\/+/, '')}`;
 const assetUrl = (path) => `${base}${path.replace(/^.*?assets\//, 'assets/')}`;
+const imageUrl = assetUrl(story.data.imagem);
+const description = `Leia "${story.data.titulo}", uma historinha infantil dos Astronautinhas com o Astronauta Espaguete e a Astronauta Penne no planeta ${story.data.planeta}.`;
+const canonical = `https://astronautinhas.com.br/historias/${story.data.slug}/`;
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'CreativeWork',
+    name: story.data.titulo,
+    description,
+    url: canonical,
+    image: new URL(imageUrl, 'https://astronautinhas.com.br').toString(),
+    datePublished: story.data.data.toISOString().slice(0, 10),
+    inLanguage: 'pt-BR',
+    isFamilyFriendly: true
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Astronautinhas', item: 'https://astronautinhas.com.br/' },
+      { '@type': 'ListItem', position: 2, name: 'Histórias', item: 'https://astronautinhas.com.br/historias/' },
+      { '@type': 'ListItem', position: 3, name: story.data.titulo, item: canonical }
+    ]
+  }
+];
 ---
-<Base title={`${story.data.titulo} | Astronautinhas`}><article class="story"><p>Aventura #{story.data.numero}</p><h1>{story.data.titulo}</h1><div class="text"><Content/></div><div><img style="display:block;width:100%;max-width:100%;height:auto;border-radius:20px" src={assetUrl(story.data.imagem)} alt={`Ilustração de ${story.data.titulo}`}/></div><p><a href={url('historias/')}>← Todas as aventuras</a></p></article></Base>
+<Base title={`${story.data.titulo} | Astronautinhas`} description={description} image={imageUrl} type="article" structuredData={structuredData}><article class="story"><p>Aventura #{story.data.numero}</p><h1>{story.data.titulo}</h1><div class="text"><Content/></div><div><img style="display:block;width:100%;max-width:100%;height:auto;border-radius:20px" src={imageUrl} alt={`Ilustração de ${story.data.titulo}`}/></div><p><a href={url('historias/')}>← Todas as aventuras</a></p></article></Base>
