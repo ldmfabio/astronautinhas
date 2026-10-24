@@ -1,8 +1,15 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { getCollection, render } from 'astro:content';
-export async function getStaticPaths(){const stories=(await getCollection('historias')).filter(s=>!s.data.draft && s.data.publicacao?.site !== false);return stories.map(story=>({params:{slug:story.data.slug},props:{story}}));}
-const {story}=Astro.props; const {Content}=await render(story);
+import { getComicPages } from '../../lib/quadrinhos';
+export async function getStaticPaths(){
+  const stories=(await getCollection('historias')).filter(s=>!s.data.draft && s.data.publicacao?.site !== false);
+  return Promise.all(stories.map(async story=>({
+    params:{slug:story.data.slug},
+    props:{story, comicPages: await getComicPages(story)}
+  })));
+}
+const {story, comicPages=[]}=Astro.props; const {Content}=await render(story);
 const base = import.meta.env.BASE_URL;
 const url = (path = '') => `${base}${path.replace(/^\/+/, '')}`;
 const assetUrl = (path) => `${base}${path.replace(/^.*?assets\//, 'assets/')}`;
@@ -32,4 +39,50 @@ const structuredData = [
   }
 ];
 ---
-<Base title={`${story.data.titulo} | Astronautinhas`} description={description} image={imageUrl} type="article" structuredData={structuredData}><article class="story"><p>Aventura #{story.data.numero}</p><h1>{story.data.titulo}</h1><div class="text"><Content/></div><div><img style="display:block;width:100%;max-width:100%;height:auto;border-radius:20px" src={imageUrl} alt={`Ilustração de ${story.data.titulo}`}/></div><p><a href={url('historias/')}>← Todas as aventuras</a></p></article></Base>
+<Base title={`${story.data.titulo} | Astronautinhas`} description={description} image={imageUrl} type="article" structuredData={structuredData}>
+  <article class="story">
+    <p>Aventura #{story.data.numero}</p>
+    <h1>{story.data.titulo}</h1>
+
+    {comicPages.length > 0 && (
+      <div class="story-mode-tabs" role="tablist" aria-label="Modo de leitura">
+        <button class="story-mode-tab" type="button" data-story-mode="text" aria-selected="true">📖 Ler história</button>
+        <button class="story-mode-tab" type="button" data-story-mode="comics" aria-selected="false">💬 Ver quadrinhos</button>
+      </div>
+    )}
+
+    <section data-story-panel="text">
+      <div class="text"><Content/></div>
+      <div><img style="display:block;width:100%;max-width:100%;height:auto;border-radius:20px" src={imageUrl} alt={`Ilustração de ${story.data.titulo}`}/></div>
+    </section>
+
+    {comicPages.length > 0 && (
+      <section class="comic-pages" data-story-panel="comics" hidden>
+        {comicPages.map((page, index) => (
+          <figure class="comic-page">
+            <img src={url(page)} alt={`Quadrinhos de ${story.data.titulo}, página ${index + 1}`} loading={index === 0 ? 'eager' : 'lazy'}/>
+          </figure>
+        ))}
+      </section>
+    )}
+
+    <p><a href={url('historias/')}>← Todas as aventuras</a></p>
+  </article>
+
+  {comicPages.length > 0 && (
+    <script is:inline>
+      (() => {
+        const tabs = Array.from(document.querySelectorAll('[data-story-mode]'));
+        const panels = Array.from(document.querySelectorAll('[data-story-panel]'));
+
+        tabs.forEach((tab) => tab.addEventListener('click', () => {
+          const mode = tab.dataset.storyMode;
+          tabs.forEach((item) => item.setAttribute('aria-selected', String(item === tab)));
+          panels.forEach((panel) => {
+            panel.hidden = panel.dataset.storyPanel !== mode;
+          });
+        }));
+      })();
+    </script>
+  )}
+</Base>
