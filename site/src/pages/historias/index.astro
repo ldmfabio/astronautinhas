@@ -40,7 +40,7 @@ const filters = [
         {storyCards.map(({ story: s, hasComics }) => (
           <a class="card story-card" data-category={s.data.categoria} href={url(`historias/${s.data.slug}/`)}>
             <img src={assetUrl(s.data.imagem)} alt={`Ilustração de ${s.data.titulo}`} loading="lazy"/>
-            <div class="content"><small>Aventura #{s.data.numero}</small><h2>{s.data.titulo}</h2>{hasComics && <span class="comic-badge">💬 Quadrinhos</span>}</div>
+            <div class="content"><div class="card-meta"><small>Aventura #{s.data.numero}</small>{hasComics && <span class="comic-badge">💬 Quadrinhos</span>}</div><h2>{s.data.titulo}</h2></div>
           </a>
         ))}
       </section>
