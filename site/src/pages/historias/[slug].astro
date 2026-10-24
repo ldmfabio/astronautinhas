@@ -1,15 +1,15 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { getCollection, render } from 'astro:content';
-import { getComicPages } from '../../lib/quadrinhos';
+import { getComicPages, getBookPages } from '../../lib/quadrinhos';
 export async function getStaticPaths(){
   const stories=(await getCollection('historias')).filter(s=>!s.data.draft && s.data.publicacao?.site !== false);
   return Promise.all(stories.map(async story=>({
     params:{slug:story.data.slug},
-    props:{story, comicPages: await getComicPages(story)}
+    props:{story, comicPages: await getComicPages(story), bookPages: await getBookPages(story)}
   })));
 }
-const {story, comicPages=[]}=Astro.props; const {Content}=await render(story);
+const {story, comicPages=[], bookPages=[]}=Astro.props; const {Content}=await render(story);
 const base = import.meta.env.BASE_URL;
 const url = (path = '') => `${base}${path.replace(/^\/+/, '')}`;
 const assetUrl = (path) => `${base}${path.replace(/^.*?assets\//, 'assets/')}`;
@@ -44,10 +44,11 @@ const structuredData = [
     <p>Aventura #{story.data.numero}</p>
     <h1>{story.data.titulo}</h1>
 
-    {comicPages.length > 0 && (
+    {(comicPages.length > 0 || bookPages.length > 0) && (
       <div class="story-mode-tabs" role="tablist" aria-label="Modo de leitura">
         <button class="story-mode-tab" type="button" data-story-mode="text" aria-selected="true">📖 Ler história</button>
-        <button class="story-mode-tab" type="button" data-story-mode="comics" aria-selected="false">💬 Ver quadrinhos</button>
+        {comicPages.length > 0 && <button class="story-mode-tab" type="button" data-story-mode="comics" aria-selected="false">💬 Ver quadrinhos</button>}
+        {bookPages.length > 0 && <button class="story-mode-tab" type="button" data-story-mode="book" aria-selected="false">📚 Livrinho</button>}
       </div>
     )}
 
@@ -66,10 +67,27 @@ const structuredData = [
       </section>
     )}
 
+    {bookPages.length > 0 && (
+      <section class="book-reader" data-story-panel="book" hidden>
+        <div class="book-pages">
+          {bookPages.map((page, index) => (
+            <figure class="book-page" data-book-page={index} hidden={index !== 0}>
+              <img src={url(page)} alt={`Livrinho de ${story.data.titulo}, página ${index + 1}`} loading={index === 0 ? 'eager' : 'lazy'}/>
+            </figure>
+          ))}
+        </div>
+        <div class="book-controls">
+          <button class="button secondary" type="button" data-book-prev disabled>← Anterior</button>
+          <span class="book-counter" aria-live="polite">Página 1 de {bookPages.length}</span>
+          <button class="button secondary" type="button" data-book-next={bookPages.length > 1 ? '' : undefined} disabled={bookPages.length <= 1}>Próxima →</button>
+        </div>
+      </section>
+    )}
+
     <p><a href={url('historias/')}>← Todas as aventuras</a></p>
   </article>
 
-  {comicPages.length > 0 && (
+  {(comicPages.length > 0 || bookPages.length > 0) && (
     <script is:inline>
       (() => {
         const tabs = Array.from(document.querySelectorAll('[data-story-mode]'));
@@ -82,6 +100,37 @@ const structuredData = [
             panel.hidden = panel.dataset.storyPanel !== mode;
           });
         }));
+
+        const bookPages = Array.from(document.querySelectorAll('[data-book-page]'));
+        const prev = document.querySelector('[data-book-prev]');
+        const next = document.querySelector('[data-book-next]');
+        const counter = document.querySelector('.book-counter');
+        let currentBookPage = 0;
+
+        const updateBook = () => {
+          bookPages.forEach((page, index) => {
+            page.hidden = index !== currentBookPage;
+          });
+          if (prev) prev.disabled = currentBookPage === 0;
+          if (next) next.disabled = currentBookPage >= bookPages.length - 1;
+          if (counter) counter.textContent = `Página ${currentBookPage + 1} de ${bookPages.length}`;
+        };
+
+        prev?.addEventListener('click', () => {
+          if (currentBookPage > 0) {
+            currentBookPage -= 1;
+            updateBook();
+          }
+        });
+
+        next?.addEventListener('click', () => {
+          if (currentBookPage < bookPages.length - 1) {
+            currentBookPage += 1;
+            updateBook();
+          }
+        });
+
+        if (bookPages.length) updateBook();
       })();
     </script>
   )}

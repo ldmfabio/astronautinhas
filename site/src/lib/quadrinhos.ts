@@ -28,3 +28,22 @@ export async function getComicPages(story) {
     return [];
   }
 }
+
+
+export async function getBookPages(story) {
+  const folder = getAssetFolder(story);
+  if (!folder) return [];
+
+  const dir = join(historiasRoot, folder, 'quadrinhos', 'livrinho');
+
+  try {
+    const entries = await readdir(dir, { withFileTypes: true });
+    return entries
+      .filter((entry) => entry.isFile() && entry.name.toLowerCase().endsWith('.png'))
+      .map((entry) => entry.name)
+      .sort((a, b) => a.localeCompare(b, 'pt-BR', { numeric: true }))
+      .map((name) => `assets/historias/${folder}/quadrinhos/livrinho/${name}`);
+  } catch {
+    return [];
+  }
+}
