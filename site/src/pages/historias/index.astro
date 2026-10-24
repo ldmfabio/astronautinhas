@@ -1,7 +1,12 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { getCollection } from 'astro:content';
+import { getComicPages } from '../../lib/quadrinhos';
 const stories=(await getCollection('historias')).filter(s=>!s.data.draft && s.data.publicacao?.site !== false).sort((a,b)=>b.data.numero-a.data.numero);
+const storyCards = await Promise.all(stories.map(async (story) => ({
+  story,
+  hasComics: (await getComicPages(story)).length > 0
+})));
 const base = import.meta.env.BASE_URL;
 const url = (path = '') => `${base}${path.replace(/^\/+/, '')}`;
 const assetUrl = (path) => `${base}${path.replace(/^.*?assets\//, 'assets/')}`;
@@ -32,10 +37,10 @@ const filters = [
   {stories.length ? (
     <>
       <section class="grid grid-stories" id="stories-grid">
-        {stories.map(s => (
+        {storyCards.map(({ story: s, hasComics }) => (
           <a class="card story-card" data-category={s.data.categoria} href={url(`historias/${s.data.slug}/`)}>
             <img src={assetUrl(s.data.imagem)} alt={`Ilustração de ${s.data.titulo}`} loading="lazy"/>
-            <div class="content"><small>Aventura #{s.data.numero}</small><h2>{s.data.titulo}</h2></div>
+            <div class="content"><div class="card-meta"><small>Aventura #{s.data.numero}</small>{hasComics && <span class="comic-badge">💬 Quadrinhos</span>}</div><h2>{s.data.titulo}</h2></div>
           </a>
         ))}
       </section>
