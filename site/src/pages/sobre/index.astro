@@ -13,7 +13,7 @@ const secoes = await Promise.all(
   })
 );
 ---
-<Base title="Sobre | Astronautinhas">
+<Base title="Sobre os Astronautinhas" description="Conheça a origem do Astronauta Espaguete e da Astronauta Penne e a história familiar por trás das aventuras dos Astronautinhas.">
   <article class="prose">
     {secoes.map(({ pagina, Content }) => (
       <section id={pagina.id}>

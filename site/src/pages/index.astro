@@ -5,8 +5,17 @@ const stories=(await getCollection('historias')).filter(s=>!s.data.draft && s.da
 const base = import.meta.env.BASE_URL;
 const url = (path = '') => `${base}${path.replace(/^\/+/, '')}`;
 const assetUrl = (path) => `${base}${path.replace(/^.*?assets\//, 'assets/')}`;
+const description = 'Historinhas infantis do Astronauta Espaguete e da Astronauta Penne, com aventuras em família, lugares, comidas e muita imaginação.';
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Astronautinhas',
+  url: 'https://astronautinhas.com.br/',
+  description,
+  inLanguage: 'pt-BR'
+};
 ---
-<Base>
+<Base title="Astronautinhas | Historinhas infantis" description={description} structuredData={structuredData}>
 <section class="hero"><p>🚀 🍝</p><h1>Astronautinhas</h1><p>As aventuras do Astronauta Espaguete e da Astronauta Penne.</p><a class="button" href={url('historias/')}>Conheça as aventuras</a></section>
 <section class="latest-stories">
   <h2>Últimas aventuras</h2>

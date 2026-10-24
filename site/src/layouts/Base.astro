@@ -1,6 +1,13 @@
 ---
 import '../styles/global.css';
-const { title = 'Astronautinhas', description = 'As aventuras do Astronauta Espaguete e da Astronauta Penne' } = Astro.props;
+import Seo from '../components/Seo.astro';
+const {
+  title = 'Astronautinhas',
+  description = 'As aventuras do Astronauta Espaguete e da Astronauta Penne',
+  image,
+  type = 'website',
+  structuredData
+} = Astro.props;
 const base = import.meta.env.BASE_URL;
 const url = (path = '') => `${base}${path.replace(/^\/+/, '')}`;
 const isProd = import.meta.env.PROD;
@@ -10,15 +17,15 @@ const isProd = import.meta.env.PROD;
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<meta name="description" content={description}/>
+<Seo title={title} description={description} image={image} type={type} structuredData={structuredData}/>
 <meta name="theme-color" content="#4338ca"/>
 <meta name="application-name" content="Astronautinhas"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
 <meta name="apple-mobile-web-app-title" content="Astronautinhas"/>
 <link rel="manifest" href={url('manifest.webmanifest')}/>
 <link rel="icon" href={url('icons/astronautinhas.svg')} type="image/svg+xml"/>
-<title>{title}</title>
 {isProd && (
   <>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-F8Y59SGWJ2"></script>
