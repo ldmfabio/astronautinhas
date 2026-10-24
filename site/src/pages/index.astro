@@ -24,6 +24,6 @@ const structuredData = {
 <section class="hero"><p>🚀 🍝</p><h1>Astronautinhas</h1><p>As aventuras do Astronauta Espaguete e da Astronauta Penne.</p><a class="button" href={url('historias/')}>Conheça as aventuras</a></section>
 <section class="latest-stories">
   <h2>Últimas aventuras</h2>
-  {stories.length ? <section class="grid grid-home">{storyCards.map(({story:s,hasComics})=><a class="card" href={url(`historias/${s.data.slug}/`)}><img src={assetUrl(s.data.imagem)} alt={`Ilustração de ${s.data.titulo}`}/><div class="content"><small>Aventura #{s.data.numero}</small><h3>{s.data.titulo}</h3>{hasComics && <span class="comic-badge">💬 Quadrinhos</span>}</div></a>)}</section> : <section class="empty"><h3>🪐 Diário de bordo em preparação</h3><p>As histórias originais aparecerão aqui após conferência e importação.</p></section>}
+  {stories.length ? <section class="grid grid-home">{storyCards.map(({story:s,hasComics})=><a class="card" href={url(`historias/${s.data.slug}/`)}><img src={assetUrl(s.data.imagem)} alt={`Ilustração de ${s.data.titulo}`}/><div class="content"><div class="card-meta"><small>Aventura #{s.data.numero}</small>{hasComics && <span class="comic-badge">💬 Quadrinhos</span>}</div><h3>{s.data.titulo}</h3></div></a>)}</section> : <section class="empty"><h3>🪐 Diário de bordo em preparação</h3><p>As histórias originais aparecerão aqui após conferência e importação.</p></section>}
 </section>
 </Base>
