@@ -1,11 +1,11 @@
 ---
 historia_id: "092"
 slug: "planeta-banho"
-data: 2026-10-26
-titulo_conversa: "PENDENTE"
-autor_prompt: "PENDENTE"
+data: 2026-06-17
+titulo_conversa: "Planeta Banho"
+autor_prompt: "Nathaniele Bianchi"
 projeto: "Historinhas"
-estado_registro: "estrutura-criada"
+estado_registro: "parcial"
 ---
 
 # Registro de origem — Planeta Banho
@@ -13,13 +13,14 @@ estado_registro: "estrutura-criada"
 ## Prompt da história
 
 ```text
-PENDENTE: recuperar o prompt original desta história no histórico do projeto.
+Me gere uma história do astronauta espaguete e da sua irmã astronauta penne visitando o planeta banho
+A nave deles é em forma de planeta brilhante
 ```
 
 ## Pedidos posteriores visíveis
 
-PENDENTE de recuperação.
+1. `Gere uma figura`
 
 ## Estado da migração
 
-A estrutura foi criada, mas o prompt original, o texto final e a ilustração ainda precisam ser recuperados/importados.
+O prompt original disponível no histórico do projeto foi recuperado fielmente. O texto final da história e o arquivo original da ilustração ainda precisam ser copiados/importados.

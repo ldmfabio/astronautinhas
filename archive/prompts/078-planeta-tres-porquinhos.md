@@ -1,11 +1,11 @@
 ---
 historia_id: "078"
 slug: "planeta-tres-porquinhos"
-data: 2026-10-26
-titulo_conversa: "PENDENTE"
-autor_prompt: "PENDENTE"
+data: 2026-08-24
+titulo_conversa: "Planeta Três Porquinhos"
+autor_prompt: "Nathaniele Bianchi"
 projeto: "Historinhas"
-estado_registro: "estrutura-criada"
+estado_registro: "parcial"
 ---
 
 # Registro de origem — Planeta Três Porquinhos
@@ -13,13 +13,13 @@ estado_registro: "estrutura-criada"
 ## Prompt da história
 
 ```text
-PENDENTE: recuperar o prompt original desta história no histórico do projeto.
+Hoje os astronautas vão para o planeta 3 porquinhos
 ```
 
 ## Pedidos posteriores visíveis
 
-PENDENTE de recuperação.
+1. `Me gere uma figura que represente essa história`
 
 ## Estado da migração
 
-A estrutura foi criada, mas o prompt original, o texto final e a ilustração ainda precisam ser recuperados/importados.
+O prompt original disponível no histórico do projeto foi recuperado fielmente. O texto final da história e o arquivo original da ilustração ainda precisam ser copiados/importados.
