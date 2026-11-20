@@ -35,16 +35,16 @@ function Get-FrontmatterField {
 
 try {
     if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
-        throw 'Git não encontrado no PATH.'
+        throw 'Git nao encontrado no PATH.'
     }
     if (-not (Get-Command gh -ErrorAction SilentlyContinue)) {
-        throw 'GitHub CLI (gh) não encontrado no PATH.'
+        throw 'GitHub CLI (gh) nao encontrado no PATH.'
     }
     if (-not (Get-Command python -ErrorAction SilentlyContinue)) {
-        throw 'Python não encontrado no PATH.'
+        throw 'Python nao encontrado no PATH.'
     }
     if (-not (Get-Command npm -ErrorAction SilentlyContinue)) {
-        throw 'npm não encontrado no PATH.'
+        throw 'npm nao encontrado no PATH.'
     }
 
     $packagePath = (Resolve-Path $Pacote).Path
@@ -54,23 +54,23 @@ try {
 
     $insideRepo = git rev-parse --is-inside-work-tree
     if ($LASTEXITCODE -ne 0 -or $insideRepo.Trim() -ne 'true') {
-        throw 'Execute o script dentro do repositório Astronautinhas.'
+        throw 'Execute o script dentro do repositorio Astronautinhas.'
     }
 
     $changes = git status --porcelain
     if ($LASTEXITCODE -ne 0) {
-        throw 'Não foi possível verificar o estado do repositório.'
+        throw 'Nao foi possivel verificar o estado do repositorio.'
     }
     if ($changes) {
-        throw 'Há alterações locais não commitadas. Faça commit ou stash antes de importar uma história.'
+        throw 'Ha alteracoes locais nao commitadas. Faca commit ou stash antes de importar uma historia.'
     }
 
-    Write-Host 'Verificando autenticação do GitHub CLI...'
+    Write-Host 'Verificando autenticacao do GitHub CLI...'
     Invoke-Checked -Command 'gh' -Arguments @('auth', 'status')
 
     $currentBranch = (git branch --show-current).Trim()
     if ($currentBranch -eq 'gh-pages') {
-        throw 'Importação bloqueada na branch gh-pages.'
+        throw 'Importacao bloqueada na branch gh-pages.'
     }
 
     Write-Host 'Atualizando main...'
@@ -100,7 +100,7 @@ try {
 
         foreach ($required in @($storySource, $promptSource, $imageSource, $comicsSource, $bookSource)) {
             if (-not (Test-Path $required)) {
-                throw "Pacote incompleto. Item obrigatório ausente: $required"
+                throw "Pacote incompleto. Item obrigatorio ausente: $required"
             }
         }
 
@@ -123,10 +123,10 @@ try {
             throw 'historia.md precisa conter numero, slug, titulo e imagem no frontmatter.'
         }
         if ($number -notmatch '^\d+$') {
-            throw "Número de história inválido: $number"
+            throw "Numero de historia invalido: $number"
         }
         if ($slug -notmatch '^[a-z0-9]+(?:-[a-z0-9]+)*$') {
-            throw "Slug inválido: $slug"
+            throw "Slug invalido: $slug"
         }
 
         $id = '{0:D3}' -f [int]$number
@@ -141,26 +141,26 @@ try {
         $assetsDestination = Join-Path $RootDir "assets\historias\$folder"
 
         if (Test-Path $storyDestination) {
-            throw "Já existe uma história com este número/slug: content/historias/$folder.md"
+            throw "Ja existe uma historia com este numero/slug: content/historias/$folder.md"
         }
         if (Test-Path $promptDestination) {
-            throw "Já existe registro de prompt para esta história: archive/prompts/$folder.md"
+            throw "Ja existe registro de prompt para esta historia: archive/prompts/$folder.md"
         }
         if (Test-Path $assetsDestination) {
-            throw "Já existe pasta de assets para esta história: assets/historias/$folder"
+            throw "Ja existe pasta de assets para esta historia: assets/historias/$folder"
         }
 
         $existingByNumber = Get-ChildItem -LiteralPath (Join-Path $RootDir 'content\historias') -Filter '*.md' |
             Where-Object { $_.Name -match "^$id-" }
         if ($existingByNumber) {
-            throw "O número $number já está em uso por $($existingByNumber[0].Name)."
+            throw "O numero $number ja esta em uso por $($existingByNumber[0].Name)."
         }
 
         $slugPattern = "(?m)^slug:\s*[""']?" + [regex]::Escape($slug) + "[""']?\s*$"
         $existingBySlug = Get-ChildItem -LiteralPath (Join-Path $RootDir 'content\historias') -Filter '*.md' |
             Where-Object { [regex]::IsMatch((Get-Content $_.FullName -Raw -Encoding UTF8), $slugPattern) }
         if ($existingBySlug) {
-            throw "O slug '$slug' já está em uso por $($existingBySlug[0].Name)."
+            throw "O slug '$slug' ja esta em uso por $($existingBySlug[0].Name)."
         }
 
         $branchName = "feature/historia-$folder"
@@ -192,7 +192,7 @@ try {
             Copy-Item -LiteralPath $file.FullName -Destination (Join-Path $assetsDestination ('quadrinhos\livrinho\' + $file.Name))
         }
 
-        Write-Host 'Validando conteúdo...'
+        Write-Host 'Validando conteudo...'
         Invoke-Checked -Command 'python' -Arguments @('scripts/validate_content.py')
 
         Write-Host 'Executando build do site...'
@@ -200,7 +200,7 @@ try {
 
         $changesAfterBuild = git status --porcelain
         if (-not $changesAfterBuild) {
-            throw 'Nenhuma alteração foi detectada após a importação.'
+            throw 'Nenhuma alteracao foi detectada apos a importacao.'
         }
 
         Write-Host 'Criando commit...'
@@ -210,28 +210,29 @@ try {
             "archive/prompts/$folder.md",
             "assets/historias/$folder"
         )
-        Invoke-Checked -Command 'git' -Arguments @('commit', '-m', "feat: adicionar história $id - $title")
+        Invoke-Checked -Command 'git' -Arguments @('commit', '-m', "feat: adicionar historia $id - $title")
 
         Write-Host 'Enviando branch para o GitHub...'
         Invoke-Checked -Command 'git' -Arguments @('push', '-u', 'origin', $branchName)
 
-        $prTitle = "Adicionar história $id — $title"
-        $prBody = @"
-Adiciona a história $id — $title ao acervo dos Astronautinhas.
-
-Inclui:
-- texto e metadados da história;
-- registro do prompt original;
-- ilustração principal;
-- página(s) de quadrinhos;
-- páginas do Livrinho.
-
-Validações executadas automaticamente:
-- scripts/validate_content.py;
-- npm --prefix site run build.
-
-A PR foi criada pelo fluxo automatizado de importação. O merge continua manual.
-"@
+        $prTitle = "Adicionar historia $id - $title"
+        $prBodyLines = @(
+            "Adiciona a historia $id - $title ao acervo dos Astronautinhas.",
+            "",
+            "Inclui:",
+            "- texto e metadados da historia;",
+            "- registro do prompt original;",
+            "- ilustracao principal;",
+            "- pagina(s) de quadrinhos;",
+            "- paginas do Livrinho.",
+            "",
+            "Validacoes executadas automaticamente:",
+            "- scripts/validate_content.py;",
+            "- npm --prefix site run build.",
+            "",
+            "A PR foi criada pelo fluxo automatizado de importacao. O merge continua manual."
+        )
+        $prBody = $prBodyLines -join [Environment]::NewLine
 
         Write-Host 'Abrindo Pull Request...'
         Invoke-Checked -Command 'gh' -Arguments @(
@@ -243,9 +244,9 @@ A PR foi criada pelo fluxo automatizado de importação. O merge continua manual
         )
 
         Write-Host ''
-        Write-Host "Importação concluída: $id — $title"
+        Write-Host "Importacao concluida: $id - $title"
         Write-Host "Branch: $branchName"
-        Write-Host 'A PR foi aberta para revisão. Nenhum merge foi realizado.'
+        Write-Host 'A PR foi aberta para revisao. Nenhum merge foi realizado.'
     }
     finally {
         if (Test-Path $tempDir) {
