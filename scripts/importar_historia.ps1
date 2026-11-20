@@ -166,12 +166,12 @@ try {
         $branchName = "feature/historia-$folder"
         git show-ref --verify --quiet "refs/heads/$branchName"
         if ($LASTEXITCODE -eq 0) {
-            throw "A branch local '$branchName' já existe."
+            throw "A branch local '$branchName' ja existe."
         }
 
         git ls-remote --exit-code --heads origin $branchName *> $null
         if ($LASTEXITCODE -eq 0) {
-            throw "A branch remota '$branchName' já existe."
+            throw "A branch remota '$branchName' ja existe."
         }
 
         Write-Host "Criando branch $branchName..."
