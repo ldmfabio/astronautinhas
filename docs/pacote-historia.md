@@ -148,6 +148,75 @@ A preparacao deve:
     - `livrinho/pagina-05.png`
     - `livrinho/pagina-06.png`.
 
+
+
+### Arquivos Markdown obrigatorios
+
+O pacote NAO pode conter `historia.md` ou `prompt.md` como texto puro. Ambos precisam sair prontos para entrar no repositorio.
+
+#### historia.md
+
+`historia.md` deve comecar obrigatoriamente com frontmatter YAML delimitado por `---` e conter, no minimo:
+
+- `id`
+- `numero`
+- `titulo`
+- `planeta`
+- `slug`
+- `categoria`
+- `data`
+- `imagem`
+- `draft`
+- `publicacao`
+- `fonte`
+- `prompt_arquivo`
+- `status_importacao`
+- `prompt_original_importado`
+- `texto_original_importado`
+- `imagem_original_importada`
+
+O campo `imagem` deve seguir exatamente:
+
+```text
+../../assets/historias/NNN-slug/ilustracao.png
+```
+
+O campo `prompt_arquivo` deve seguir exatamente:
+
+```text
+../../archive/prompts/NNN-slug.md
+```
+
+Para uma historia totalmente preparada e aprovada:
+
+- `draft: false`
+- `status_importacao: "original-importado"`
+- `prompt_original_importado: true`
+- `texto_original_importado: true`
+- `imagem_original_importada: true`
+
+Somente depois do fechamento do frontmatter deve vir o texto integral da historia.
+
+#### prompt.md
+
+`prompt.md` tambem deve comecar obrigatoriamente com frontmatter YAML delimitado por `---` e conter, no minimo:
+
+- `historia_id`
+- `slug`
+- `data`
+- `titulo_conversa`
+- `autor_prompt`
+- `projeto`
+- `estado_registro`
+
+Depois do frontmatter, deve registrar:
+
+- o prompt original da historia;
+- pedidos posteriores relevantes;
+- o estado da migracao/importacao.
+
+O gerador do pacote deve preservar o texto original disponivel e nao reconstruir prompts que nao estejam presentes no contexto.
+
 ### Padrao visual oficial
 
 A historia "Planeta Caca ao Tesouro" define o comportamento esperado e deve ser tratada como referencia obrigatoria nao apenas de conteudo, mas tambem de composicao visual, enquadramento, hierarquia e posicionamento dos elementos.
