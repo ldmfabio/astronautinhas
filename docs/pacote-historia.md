@@ -119,6 +119,10 @@ Prepare esta historia completa para o site.
 
 e o gatilho oficial para preparar o pacote completo daquela historia.
 
+IMPORTANTE: a conversa que executar este gatilho NAO deve tentar buscar imagens de referencia, scripts ou arquivos no repositorio para entender o padrao. O padrao oficial esta descrito neste protocolo e deve ser aplicado diretamente. O repositorio nao e fonte necessaria para a etapa de geracao visual. A unica referencia visual obrigatoria que precisa estar disponivel na conversa e a ilustracao principal aprovada da propria historia.
+
+A historia "Planeta Caca ao Tesouro" e o nome historico do modelo aprovado, mas a execucao do gatilho nao depende de abrir essa historia, baixar seus arquivos ou acessar qualquer URL.
+
 A preparacao deve:
 
 1. preservar integralmente a historia aprovada;
@@ -131,13 +135,40 @@ A preparacao deve:
 8. nunca reutilizar a ilustracao principal como pagina do livrinho ou como pagina de quadrinhos;
 9. nunca repetir a mesma imagem em duas paginas do livrinho;
 10. usar a historia "Planeta Caca ao Tesouro" como referencia estrutural e visual para quadrinhos e livrinho;
-11. gerar o ZIP final compativel com `scripts/importar_historia.ps1`.
+11. gerar o ZIP final no formato aceito pelo importador local, sem precisar ler ou acessar o arquivo `scripts/importar_historia.ps1`;
+12. usar exatamente esta estrutura no ZIP:
+    - `historia.md`
+    - `prompt.md`
+    - `ilustracao.png`
+    - `quadrinhos/pagina-01.png`
+    - `livrinho/pagina-01.png`
+    - `livrinho/pagina-02.png`
+    - `livrinho/pagina-03.png`
+    - `livrinho/pagina-04.png`
+    - `livrinho/pagina-05.png`
+    - `livrinho/pagina-06.png`.
 
 ### Padrao visual oficial
 
 A historia "Planeta Caca ao Tesouro" define o comportamento esperado e deve ser tratada como referencia obrigatoria nao apenas de conteudo, mas tambem de composicao visual, enquadramento, hierarquia e posicionamento dos elementos.
 
 #### Quadrinhos
+
+A pagina de quadrinhos deve aplicar diretamente este padrao, sem precisar consultar arquivos externos:
+
+- formato de pagina vertical;
+- um titulo geral da aventura em faixa de pergaminho no topo da pagina;
+- grade fixa de 6 quadros, organizada em 2 colunas por 3 linhas;
+- bordas pretas bem definidas separando os quadros;
+- cada quadro com uma faixa de legenda em pergaminho posicionada na parte superior interna do proprio quadro;
+- a legenda deve conter o numero da cena e uma frase curta narrando aquele momento;
+- baloes de fala brancos, contorno preto espesso, texto preto legivel;
+- cada balao deve ficar proximo ao personagem que fala, com a cauda apontando claramente para ele;
+- baloes nunca devem encobrir rostos, legendas ou o elemento narrativo principal;
+- cenas cronologicas e visualmente distintas;
+- leitura natural da esquerda para a direita e de cima para baixo;
+- composicao colorida, infantil, limpa e consistente com a ilustracao principal aprovada;
+- os mesmos personagens devem manter forma, roupa, cores, proporcoes e identidade visual em todos os quadros.
 
 A pagina de quadrinhos deve manter o mesmo padrao visual aprovado em "Planeta Caca ao Tesouro":
 
@@ -152,6 +183,22 @@ A pagina de quadrinhos deve manter o mesmo padrao visual aprovado em "Planeta Ca
 - a composicao geral da pagina deve seguir a mesma logica de distribuicao dos quadros usada em "Planeta Caca ao Tesouro".
 
 #### Livrinho
+
+Cada pagina do livrinho deve aplicar diretamente este padrao, sem precisar consultar arquivos externos:
+
+- formato horizontal consistente em todas as 6 paginas;
+- uma unica cena grande ocupando quase toda a pagina;
+- borda preta ao redor da pagina;
+- uma faixa de pergaminho larga na parte superior, ocupando praticamente toda a largura;
+- dentro dessa faixa, o numero da pagina/cena seguido de uma legenda curta;
+- abaixo da legenda, a ilustracao principal da cena;
+- um balao de fala branco com contorno preto espesso, preferencialmente na regiao superior ou superior-lateral da cena;
+- o balao deve ficar proximo ao personagem que fala e sua cauda deve apontar claramente para ele;
+- o balao nao pode encobrir rostos, a faixa de legenda nem o principal elemento narrativo;
+- pagina-01.png define o modelo de enquadramento, margens, borda, faixa superior, tipografia e proporcoes para pagina-02.png ate pagina-06.png;
+- as seis paginas devem mudar de cena, mas nao de linguagem visual;
+- as seis cenas devem corresponder exatamente as seis cenas dos quadrinhos, na mesma ordem cronologica;
+- os personagens devem manter forma, roupa, cores, proporcoes e identidade visual em todas as paginas.
 
 Cada pagina do livrinho deve manter o mesmo padrao visual aprovado das paginas individuais de "Planeta Caca ao Tesouro":
 
