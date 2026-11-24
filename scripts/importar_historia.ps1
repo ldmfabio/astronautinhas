@@ -25,13 +25,33 @@ function Get-FrontmatterField {
         [Parameter(Mandatory = $true)][string]$Name
     )
 
-    $pattern = "(?m)^" + [regex]::Escape($Name) + ':\s*["'']?([^"''\r\n]+)'
-    $match = [regex]::Match($Text, $pattern)
+    $header = [regex]::Match($Text, '\A(?:\uFEFF)?---[ \t]*\r?\n([\s\S]*?)\r?\n---[ \t]*(?:\r?\n|\z)')
+    if (-not $header.Success) {
+        return $null
+    }
+
+    $scope = $header.Groups[1].Value
+    $prefix = '(?m)^'
+    if ($Name -in @('projeto','titulo_conversa','autor_prompt','prompt_arquivo','status_importacao','prompt_original_importado','texto_original_importado','imagem_original_importada') -and $scope -match '(?m)^fonte:[ \t]*\r?$') {
+        $source = [regex]::Match($scope, '(?m)^fonte:[ \t]*\r?\n((?:[ \t]+[^\r\n]*(?:\r?\n|\z))+)')
+        if (-not $source.Success) {
+            return $null
+        }
+        $scope = $source.Groups[1].Value
+        $prefix = '(?m)^[ ]{2}'
+    }
+    $pattern = $prefix + [regex]::Escape($Name) + ':[ \t]*(?:"([^"\r\n]+)"|''([^''\r\n]+)''|([^#\r\n]+?))[ \t]*(?:#[^\r\n]*)?\r?$'
+    $match = [regex]::Match($scope, $pattern)
     if (-not $match.Success) {
         return $null
     }
 
-    return $match.Groups[1].Value.Trim()
+    foreach ($index in 1..3) {
+        if ($match.Groups[$index].Success) {
+            return $match.Groups[$index].Value.Trim()
+        }
+    }
+    return $null
 }
 
 function Assert-Frontmatter {
