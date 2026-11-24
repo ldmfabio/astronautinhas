@@ -104,13 +104,40 @@ try {
             }
         }
 
-        $comicPngs = @(Get-ChildItem -LiteralPath $comicsSource -File -Filter '*.png')
-        $bookPngs = @(Get-ChildItem -LiteralPath $bookSource -File -Filter '*.png')
-        if ($comicPngs.Count -lt 1) {
-            throw 'O pacote precisa conter ao menos um PNG em quadrinhos/.'
+        $comicPngs = @(Get-ChildItem -LiteralPath $comicsSource -File -Filter '*.png' | Sort-Object Name)
+        $bookPngs = @(Get-ChildItem -LiteralPath $bookSource -File -Filter '*.png' | Sort-Object Name)
+
+        if ($comicPngs.Count -ne 1 -or $comicPngs[0].Name -ne 'pagina-01.png') {
+            throw 'O pacote deve conter exatamente quadrinhos/pagina-01.png.'
         }
-        if ($bookPngs.Count -lt 1) {
-            throw 'O pacote precisa conter ao menos um PNG em livrinho/.'
+
+        $expectedBookNames = 1..6 | ForEach-Object { 'pagina-{0:D2}.png' -f $_ }
+        $actualBookNames = @($bookPngs | ForEach-Object { $_.Name })
+        if ($actualBookNames.Count -ne 6) {
+            throw 'O livrinho deve conter exatamente 6 paginas PNG.'
+        }
+        for ($i = 0; $i -lt 6; $i++) {
+            if ($actualBookNames[$i] -ne $expectedBookNames[$i]) {
+                throw "Pagina de livrinho ausente ou fora do padrao: $($expectedBookNames[$i])"
+            }
+        }
+
+        $bookHashes = @($bookPngs | ForEach-Object { (Get-FileHash -Algorithm SHA256 -LiteralPath $_.FullName).Hash })
+        if (($bookHashes | Select-Object -Unique).Count -ne 6) {
+            throw 'As 6 paginas do livrinho precisam ser arquivos diferentes. Foram detectadas imagens repetidas.'
+        }
+
+        $mainImageHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $imageSource).Hash
+        $comicHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $comicPngs[0].FullName).Hash
+
+        if ($bookHashes -contains $mainImageHash) {
+            throw 'Uma pagina do livrinho e identica a ilustracao principal. O livrinho precisa ter cenas proprias.'
+        }
+        if ($comicHash -eq $mainImageHash) {
+            throw 'A pagina de quadrinhos e identica a ilustracao principal. Os quadrinhos precisam ter composicao propria.'
+        }
+        if ($bookHashes -contains $comicHash) {
+            throw 'Uma pagina do livrinho e identica a pagina de quadrinhos. Use as mesmas cenas, mas em arquivos de pagina individuais.'
         }
 
         $storyText = Get-Content -LiteralPath $storySource -Raw -Encoding UTF8
