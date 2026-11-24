@@ -107,3 +107,59 @@ O script:
 12. nunca executa merge e nunca modifica \`gh-pages\`.
 
 Se alguma validação ou build falhar, a PR não é aberta.
+
+
+## Comando oficial de preparacao
+
+Dentro de uma conversa de uma historia do projeto Astronautinhas, depois que o texto da historia e a ilustracao principal estiverem aprovados, a frase:
+
+```text
+Prepare esta historia completa para o site.
+```
+
+e o gatilho oficial para preparar o pacote completo daquela historia.
+
+A preparacao deve:
+
+1. preservar integralmente a historia aprovada;
+2. preservar a ilustracao principal aprovada;
+3. usar a ilustracao principal como referencia mestre de identidade visual;
+4. dividir a narrativa em exatamente 6 cenas diferentes, em ordem cronologica;
+5. manter Espaguete, Penne e quaisquer outros personagens visualmente consistentes em todas as cenas;
+6. gerar uma pagina de quadrinhos com exatamente 6 quadros, um para cada cena e na mesma ordem cronologica;
+7. gerar um livrinho com exatamente 6 imagens separadas, correspondentes as mesmas 6 cenas;
+8. nunca reutilizar a ilustracao principal como pagina do livrinho ou como pagina de quadrinhos;
+9. nunca repetir a mesma imagem em duas paginas do livrinho;
+10. usar a historia "Planeta Caca ao Tesouro" como referencia estrutural e visual para quadrinhos e livrinho;
+11. gerar o ZIP final compativel com `scripts/importar_historia.ps1`.
+
+### Padrao visual oficial
+
+A historia "Planeta Caca ao Tesouro" define o comportamento esperado:
+
+- `ilustracao.png`: imagem-resumo da historia;
+- `quadrinhos/pagina-01.png`: uma pagina em formato de quadrinhos contendo 6 quadros cronologicos distintos;
+- `livrinho/pagina-01.png` a `pagina-06.png`: as mesmas 6 etapas narrativas, uma cena por pagina;
+- as paginas do livrinho devem manter o padrao de pagina unica, com cena grande, faixa/titulo superior quando fizer parte do estilo aprovado e balao/texto coerente com a cena;
+- a identidade dos personagens deve permanecer constante entre todas as imagens.
+
+O fluxo de geracao visual deve acontecer na propria conversa da historinha. O importador local nao gera imagens: ele recebe o ZIP pronto, valida a estrutura e impede que imagens exatamente repetidas sejam publicadas.
+
+### Validacoes visuais estruturais do importador
+
+O script exige:
+
+- exatamente `quadrinhos/pagina-01.png`;
+- exatamente seis paginas:
+  - `livrinho/pagina-01.png`
+  - `livrinho/pagina-02.png`
+  - `livrinho/pagina-03.png`
+  - `livrinho/pagina-04.png`
+  - `livrinho/pagina-05.png`
+  - `livrinho/pagina-06.png`
+- as seis paginas do livrinho precisam ter hashes SHA-256 diferentes;
+- nenhuma pagina do livrinho pode ser copia exata de `ilustracao.png`;
+- `quadrinhos/pagina-01.png` nao pode ser copia exata de `ilustracao.png`;
+- a pagina de quadrinhos nao pode ser copia exata de uma pagina do livrinho.
+
+Essas verificacoes nao substituem a revisao visual humana, mas evitam automaticamente o erro de empacotar a mesma imagem repetida.
