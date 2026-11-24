@@ -104,6 +104,27 @@ try {
             }
         }
 
+        $promptText = Get-Content -LiteralPath $promptSource -Raw -Encoding UTF8
+        if (-not $promptText.StartsWith("---")) {
+            throw 'prompt.md deve comecar com frontmatter YAML delimitado por ---.'
+        }
+        $promptFrontmatterParts = $promptText -split "(?m)^---\s*$"
+        if ($promptFrontmatterParts.Count -lt 3) {
+            throw 'prompt.md possui frontmatter YAML invalido ou sem fechamento ---.'
+        }
+        $requiredPromptFields = @(
+            'historia_id','slug','data','titulo_conversa','autor_prompt','projeto','estado_registro'
+        )
+        $missingPromptFields = @()
+        foreach ($fieldName in $requiredPromptFields) {
+            if (-not (Get-FrontmatterField -Text $promptText -Name $fieldName)) {
+                $missingPromptFields += $fieldName
+            }
+        }
+        if ($missingPromptFields.Count -gt 0) {
+            throw "prompt.md esta sem campos obrigatorios no frontmatter: $($missingPromptFields -join ', ')"
+        }
+
         $comicPngs = @(Get-ChildItem -LiteralPath $comicsSource -File -Filter '*.png' | Sort-Object Name)
         $bookPngs = @(Get-ChildItem -LiteralPath $bookSource -File -Filter '*.png' | Sort-Object Name)
 
@@ -141,13 +162,309 @@ try {
         }
 
         $storyText = Get-Content -LiteralPath $storySource -Raw -Encoding UTF8
+        if (-not $storyText.StartsWith("---")) {
+            throw 'historia.md deve comecar com frontmatter YAML delimitado por ---.'
+        }
+        $storyFrontmatterParts = $storyText -split "(?m)^---\s*$"
+        if ($storyFrontmatterParts.Count -lt 3) {
+            throw 'historia.md possui frontmatter YAML invalido ou sem fechamento ---.'
+        }
+
         $number = Get-FrontmatterField -Text $storyText -Name 'numero'
         $slug = Get-FrontmatterField -Text $storyText -Name 'slug'
         $title = Get-FrontmatterField -Text $storyText -Name 'titulo'
         $image = Get-FrontmatterField -Text $storyText -Name 'imagem'
 
-        if (-not $number -or -not $slug -or -not $title -or -not $image) {
-            throw 'historia.md precisa conter numero, slug, titulo e imagem no frontmatter.'
+        $requiredStoryFields = @(
+            'id','numero','titulo','planeta','slug','categoria','data','imagem','draft',
+            'prompt_arquivo','status_importacao','prompt_original_importado',
+            'texto_original_importado','imagem_original_importada'
+        )
+        $missingStoryFields = @()
+        foreach ($fieldName in $requiredStoryFields) {
+            if (-not (Get-FrontmatterField -Text $storyText -Name $fieldName)) {
+                $missingStoryFields += $fieldName
+            }
+        }
+        if ($missingStoryFields.Count -gt 0) {
+            throw "historia.md esta sem campos obrigatorios no frontmatter: $($missingStoryFields -join ', ')"
+        }
+
+        if ($storyText -notmatch '(?m)^publicacao:\s*        if ($number -notmatch '^\d+$') {
+            throw "Numero de historia invalido: $number"
+        }
+        if ($slug -notmatch '^[a-z0-9]+(?:-[a-z0-9]+)*$') {
+            throw "Slug invalido: $slug"
+        }
+
+        $id = '{0:D3}' -f [int]$number
+        $folder = "$id-$slug"
+        $expectedImage = "../../assets/historias/$folder/ilustracao.png"
+        if ($image -ne $expectedImage) {
+            throw "O campo imagem deve ser '$expectedImage', mas veio '$image'."
+        }
+
+        $storyDestination = Join-Path $RootDir "content\historias\$folder.md"
+        $promptDestination = Join-Path $RootDir "archive\prompts\$folder.md"
+        $assetsDestination = Join-Path $RootDir "assets\historias\$folder"
+
+        if (Test-Path $storyDestination) {
+            throw "Ja existe uma historia com este numero/slug: content/historias/$folder.md"
+        }
+        if (Test-Path $promptDestination) {
+            throw "Ja existe registro de prompt para esta historia: archive/prompts/$folder.md"
+        }
+        if (Test-Path $assetsDestination) {
+            throw "Ja existe pasta de assets para esta historia: assets/historias/$folder"
+        }
+
+        $existingByNumber = Get-ChildItem -LiteralPath (Join-Path $RootDir 'content\historias') -Filter '*.md' |
+            Where-Object { $_.Name -match "^$id-" }
+        if ($existingByNumber) {
+            throw "O numero $number ja esta em uso por $($existingByNumber[0].Name)."
+        }
+
+        $slugPattern = "(?m)^slug:\s*[""']?" + [regex]::Escape($slug) + "[""']?\s*$"
+        $existingBySlug = Get-ChildItem -LiteralPath (Join-Path $RootDir 'content\historias') -Filter '*.md' |
+            Where-Object { [regex]::IsMatch((Get-Content $_.FullName -Raw -Encoding UTF8), $slugPattern) }
+        if ($existingBySlug) {
+            throw "O slug '$slug' ja esta em uso por $($existingBySlug[0].Name)."
+        }
+
+        $branchName = "feature/historia-$folder"
+        git show-ref --verify --quiet "refs/heads/$branchName"
+        if ($LASTEXITCODE -eq 0) {
+            throw "A branch local '$branchName' ja existe."
+        }
+
+        git ls-remote --exit-code --heads origin $branchName *> $null
+        if ($LASTEXITCODE -eq 0) {
+            throw "A branch remota '$branchName' ja existe."
+        }
+
+        Write-Host "Criando branch $branchName..."
+        Invoke-Checked -Command 'git' -Arguments @('checkout', '-b', $branchName)
+
+        New-Item -ItemType Directory -Path (Split-Path $storyDestination -Parent) -Force | Out-Null
+        New-Item -ItemType Directory -Path (Split-Path $promptDestination -Parent) -Force | Out-Null
+        New-Item -ItemType Directory -Path (Join-Path $assetsDestination 'quadrinhos\livrinho') -Force | Out-Null
+
+        Copy-Item -LiteralPath $storySource -Destination $storyDestination
+        Copy-Item -LiteralPath $promptSource -Destination $promptDestination
+        Copy-Item -LiteralPath $imageSource -Destination (Join-Path $assetsDestination 'ilustracao.png')
+
+        foreach ($file in $comicPngs) {
+            Copy-Item -LiteralPath $file.FullName -Destination (Join-Path $assetsDestination ('quadrinhos\' + $file.Name))
+        }
+        foreach ($file in $bookPngs) {
+            Copy-Item -LiteralPath $file.FullName -Destination (Join-Path $assetsDestination ('quadrinhos\livrinho\' + $file.Name))
+        }
+
+        Write-Host 'Validando conteudo...'
+        Invoke-Checked -Command 'python' -Arguments @('scripts/validate_content.py')
+
+        Write-Host 'Executando build do site...'
+        Invoke-Checked -Command 'npm' -Arguments @('--prefix', 'site', 'run', 'build')
+
+        $changesAfterBuild = git status --porcelain
+        if (-not $changesAfterBuild) {
+            throw 'Nenhuma alteracao foi detectada apos a importacao.'
+        }
+
+        Write-Host 'Criando commit...'
+        Invoke-Checked -Command 'git' -Arguments @(
+            'add',
+            "content/historias/$folder.md",
+            "archive/prompts/$folder.md",
+            "assets/historias/$folder"
+        )
+        Invoke-Checked -Command 'git' -Arguments @('commit', '-m', "feat: adicionar historia $id - $title")
+
+        Write-Host 'Enviando branch para o GitHub...'
+        Invoke-Checked -Command 'git' -Arguments @('push', '-u', 'origin', $branchName)
+
+        $prTitle = "Adicionar historia $id - $title"
+        $prBodyLines = @(
+            "Adiciona a historia $id - $title ao acervo dos Astronautinhas.",
+            "",
+            "Inclui:",
+            "- texto e metadados da historia;",
+            "- registro do prompt original;",
+            "- ilustracao principal;",
+            "- pagina(s) de quadrinhos;",
+            "- paginas do Livrinho.",
+            "",
+            "Validacoes executadas automaticamente:",
+            "- scripts/validate_content.py;",
+            "- npm --prefix site run build.",
+            "",
+            "A PR foi criada pelo fluxo automatizado de importacao. O merge continua manual."
+        )
+        $prBody = $prBodyLines -join [Environment]::NewLine
+
+        Write-Host 'Abrindo Pull Request...'
+        Invoke-Checked -Command 'gh' -Arguments @(
+            'pr', 'create',
+            '--base', 'main',
+            '--head', $branchName,
+            '--title', $prTitle,
+            '--body', $prBody
+        )
+
+        Write-Host ''
+        Write-Host "Importacao concluida: $id - $title"
+        Write-Host "Branch: $branchName"
+        Write-Host 'A PR foi aberta para revisao. Nenhum merge foi realizado.'
+    }
+    finally {
+        if (Test-Path $tempDir) {
+            Remove-Item -LiteralPath $tempDir -Recurse -Force -ErrorAction SilentlyContinue
+        }
+    }
+}
+finally {
+    Set-Location $RootDir
+}
+) {
+            throw 'historia.md precisa conter o bloco publicacao no frontmatter.'
+        }
+        if ($storyText -notmatch '(?m)^fonte:\s*        if ($number -notmatch '^\d+$') {
+            throw "Numero de historia invalido: $number"
+        }
+        if ($slug -notmatch '^[a-z0-9]+(?:-[a-z0-9]+)*$') {
+            throw "Slug invalido: $slug"
+        }
+
+        $id = '{0:D3}' -f [int]$number
+        $folder = "$id-$slug"
+        $expectedImage = "../../assets/historias/$folder/ilustracao.png"
+        if ($image -ne $expectedImage) {
+            throw "O campo imagem deve ser '$expectedImage', mas veio '$image'."
+        }
+
+        $storyDestination = Join-Path $RootDir "content\historias\$folder.md"
+        $promptDestination = Join-Path $RootDir "archive\prompts\$folder.md"
+        $assetsDestination = Join-Path $RootDir "assets\historias\$folder"
+
+        if (Test-Path $storyDestination) {
+            throw "Ja existe uma historia com este numero/slug: content/historias/$folder.md"
+        }
+        if (Test-Path $promptDestination) {
+            throw "Ja existe registro de prompt para esta historia: archive/prompts/$folder.md"
+        }
+        if (Test-Path $assetsDestination) {
+            throw "Ja existe pasta de assets para esta historia: assets/historias/$folder"
+        }
+
+        $existingByNumber = Get-ChildItem -LiteralPath (Join-Path $RootDir 'content\historias') -Filter '*.md' |
+            Where-Object { $_.Name -match "^$id-" }
+        if ($existingByNumber) {
+            throw "O numero $number ja esta em uso por $($existingByNumber[0].Name)."
+        }
+
+        $slugPattern = "(?m)^slug:\s*[""']?" + [regex]::Escape($slug) + "[""']?\s*$"
+        $existingBySlug = Get-ChildItem -LiteralPath (Join-Path $RootDir 'content\historias') -Filter '*.md' |
+            Where-Object { [regex]::IsMatch((Get-Content $_.FullName -Raw -Encoding UTF8), $slugPattern) }
+        if ($existingBySlug) {
+            throw "O slug '$slug' ja esta em uso por $($existingBySlug[0].Name)."
+        }
+
+        $branchName = "feature/historia-$folder"
+        git show-ref --verify --quiet "refs/heads/$branchName"
+        if ($LASTEXITCODE -eq 0) {
+            throw "A branch local '$branchName' ja existe."
+        }
+
+        git ls-remote --exit-code --heads origin $branchName *> $null
+        if ($LASTEXITCODE -eq 0) {
+            throw "A branch remota '$branchName' ja existe."
+        }
+
+        Write-Host "Criando branch $branchName..."
+        Invoke-Checked -Command 'git' -Arguments @('checkout', '-b', $branchName)
+
+        New-Item -ItemType Directory -Path (Split-Path $storyDestination -Parent) -Force | Out-Null
+        New-Item -ItemType Directory -Path (Split-Path $promptDestination -Parent) -Force | Out-Null
+        New-Item -ItemType Directory -Path (Join-Path $assetsDestination 'quadrinhos\livrinho') -Force | Out-Null
+
+        Copy-Item -LiteralPath $storySource -Destination $storyDestination
+        Copy-Item -LiteralPath $promptSource -Destination $promptDestination
+        Copy-Item -LiteralPath $imageSource -Destination (Join-Path $assetsDestination 'ilustracao.png')
+
+        foreach ($file in $comicPngs) {
+            Copy-Item -LiteralPath $file.FullName -Destination (Join-Path $assetsDestination ('quadrinhos\' + $file.Name))
+        }
+        foreach ($file in $bookPngs) {
+            Copy-Item -LiteralPath $file.FullName -Destination (Join-Path $assetsDestination ('quadrinhos\livrinho\' + $file.Name))
+        }
+
+        Write-Host 'Validando conteudo...'
+        Invoke-Checked -Command 'python' -Arguments @('scripts/validate_content.py')
+
+        Write-Host 'Executando build do site...'
+        Invoke-Checked -Command 'npm' -Arguments @('--prefix', 'site', 'run', 'build')
+
+        $changesAfterBuild = git status --porcelain
+        if (-not $changesAfterBuild) {
+            throw 'Nenhuma alteracao foi detectada apos a importacao.'
+        }
+
+        Write-Host 'Criando commit...'
+        Invoke-Checked -Command 'git' -Arguments @(
+            'add',
+            "content/historias/$folder.md",
+            "archive/prompts/$folder.md",
+            "assets/historias/$folder"
+        )
+        Invoke-Checked -Command 'git' -Arguments @('commit', '-m', "feat: adicionar historia $id - $title")
+
+        Write-Host 'Enviando branch para o GitHub...'
+        Invoke-Checked -Command 'git' -Arguments @('push', '-u', 'origin', $branchName)
+
+        $prTitle = "Adicionar historia $id - $title"
+        $prBodyLines = @(
+            "Adiciona a historia $id - $title ao acervo dos Astronautinhas.",
+            "",
+            "Inclui:",
+            "- texto e metadados da historia;",
+            "- registro do prompt original;",
+            "- ilustracao principal;",
+            "- pagina(s) de quadrinhos;",
+            "- paginas do Livrinho.",
+            "",
+            "Validacoes executadas automaticamente:",
+            "- scripts/validate_content.py;",
+            "- npm --prefix site run build.",
+            "",
+            "A PR foi criada pelo fluxo automatizado de importacao. O merge continua manual."
+        )
+        $prBody = $prBodyLines -join [Environment]::NewLine
+
+        Write-Host 'Abrindo Pull Request...'
+        Invoke-Checked -Command 'gh' -Arguments @(
+            'pr', 'create',
+            '--base', 'main',
+            '--head', $branchName,
+            '--title', $prTitle,
+            '--body', $prBody
+        )
+
+        Write-Host ''
+        Write-Host "Importacao concluida: $id - $title"
+        Write-Host "Branch: $branchName"
+        Write-Host 'A PR foi aberta para revisao. Nenhum merge foi realizado.'
+    }
+    finally {
+        if (Test-Path $tempDir) {
+            Remove-Item -LiteralPath $tempDir -Recurse -Force -ErrorAction SilentlyContinue
+        }
+    }
+}
+finally {
+    Set-Location $RootDir
+}
+) {
+            throw 'historia.md precisa conter o bloco fonte no frontmatter.'
         }
         if ($number -notmatch '^\d+$') {
             throw "Numero de historia invalido: $number"
