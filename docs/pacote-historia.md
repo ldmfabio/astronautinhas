@@ -135,12 +135,42 @@ A preparacao deve:
 
 ### Padrao visual oficial
 
-A historia "Planeta Caca ao Tesouro" define o comportamento esperado:
+A historia "Planeta Caca ao Tesouro" define o comportamento esperado e deve ser tratada como referencia obrigatoria nao apenas de conteudo, mas tambem de composicao visual, enquadramento, hierarquia e posicionamento dos elementos.
+
+#### Quadrinhos
+
+A pagina de quadrinhos deve manter o mesmo padrao visual aprovado em "Planeta Caca ao Tesouro":
+
+- exatamente 6 quadros, organizados em sequencia cronologica;
+- cada quadro deve ter uma legenda propria posicionada na faixa superior do respectivo quadro;
+- a legenda deve permanecer visualmente separada da ilustracao por uma faixa/faixa de pergaminho no topo, seguindo o mesmo padrao de "Planeta Caca ao Tesouro";
+- os baloes de fala devem ficar dentro do quadro correspondente e proximos ao personagem que fala;
+- a cauda do balao deve apontar claramente para o personagem correto;
+- os baloes nao devem cobrir rostos, elementos narrativos importantes ou a legenda;
+- o tamanho, formato, contorno e estilo tipografico dos baloes devem seguir o mesmo padrao visual aprovado;
+- a leitura visual deve acontecer naturalmente da esquerda para a direita e de cima para baixo;
+- a composicao geral da pagina deve seguir a mesma logica de distribuicao dos quadros usada em "Planeta Caca ao Tesouro".
+
+#### Livrinho
+
+Cada pagina do livrinho deve manter o mesmo padrao visual aprovado das paginas individuais de "Planeta Caca ao Tesouro":
+
+- uma unica cena grande por pagina;
+- a legenda da cena deve ficar na faixa superior da pagina, sempre na mesma regiao visual usada no modelo aprovado;
+- a legenda deve usar o mesmo tipo de faixa/pergaminho, hierarquia e estilo tipografico;
+- o balao de fala deve ficar na regiao superior ou superior-lateral da cena, conforme o modelo aprovado, sempre associado visualmente ao personagem que fala;
+- a cauda do balao deve apontar claramente para o personagem correspondente;
+- o balao nao deve cobrir o rosto dos personagens nem elementos narrativos importantes;
+- o posicionamento relativo entre legenda, balao, personagens e cena deve permanecer consistente entre pagina-01.png e pagina-06.png;
+- as seis paginas devem parecer partes do mesmo livrinho, com composicao, margens, bordas, proporcoes e hierarquia visual consistentes;
+- pagina-01.png estabelece o modelo de composicao para pagina-02.png a pagina-06.png;
+- a cena muda de acordo com a cronologia, mas o padrao de layout nao deve mudar arbitrariamente entre paginas.
+
 
 - `ilustracao.png`: imagem-resumo da historia;
 - `quadrinhos/pagina-01.png`: uma pagina em formato de quadrinhos contendo 6 quadros cronologicos distintos;
 - `livrinho/pagina-01.png` a `pagina-06.png`: as mesmas 6 etapas narrativas, uma cena por pagina;
-- as paginas do livrinho devem manter o padrao de pagina unica, com cena grande, faixa/titulo superior quando fizer parte do estilo aprovado e balao/texto coerente com a cena;
+- legenda, baloes, personagens e elementos narrativos devem respeitar o mesmo posicionamento relativo do modelo aprovado;
 - a identidade dos personagens deve permanecer constante entre todas as imagens.
 
 O fluxo de geracao visual deve acontecer na propria conversa da historinha. O importador local nao gera imagens: ele recebe o ZIP pronto, valida a estrutura e impede que imagens exatamente repetidas sejam publicadas.
