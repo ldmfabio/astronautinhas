@@ -54,6 +54,37 @@ function Get-FrontmatterField {
     return $null
 }
 
+function Set-FrontmatterField {
+    param(
+        [string]$Text,
+        [string]$Name,
+        [string]$Value,
+        [string]$Indent = ''
+    )
+    $header = [regex]::Match($Text, '\A(?:\uFEFF)?---[ \t]*\r?\n([\s\S]*?)\r?\n---[ \t]*(?:\r?\n|\z)')
+    if (-not $header.Success) { throw 'Frontmatter invalido.' }
+    $group = $header.Groups[1]
+    $scope = $group.Value
+    $offset = 0
+    if ($Indent -ne '') {
+        $source = [regex]::Match($scope, '(?m)^fonte:[ \t]*\r?\n((?:[ ]+[^\r\n]*(?:\r?\n|\z))+)')
+        if (-not $source.Success) { throw 'Bloco fonte ausente ou invalido.' }
+        $offset = $source.Groups[1].Index
+        $scope = $source.Groups[1].Value
+    }
+    $pattern = '(?m)^' + [regex]::Escape($Indent + $Name) + ':[^\r\n]*'
+    $matchesFound = [regex]::Matches($scope, $pattern)
+    if ($matchesFound.Count -gt 1) { throw "Campo duplicado: $Name" }
+    $line = $Indent + $Name + ': ' + $Value
+    if ($matchesFound.Count -eq 1) {
+        $m = $matchesFound[0]
+        $start = $group.Index + $offset + $m.Index
+        return $Text.Substring(0, $start) + $line + $Text.Substring($start + $m.Length)
+    }
+    $start = $group.Index + $offset
+    return $Text.Substring(0, $start) + $line + [Environment]::NewLine + $Text.Substring($start)
+}
+
 function Assert-Frontmatter {
     param(
         [Parameter(Mandatory = $true)][string]$Text,
@@ -143,16 +174,12 @@ try {
         Assert-Frontmatter -Text $promptText -FileName 'prompt.md'
 
         $requiredStoryFields = @(
-            'id',
-            'numero',
             'titulo',
             'planeta',
             'slug',
             'categoria',
             'data',
-            'imagem',
             'draft',
-            'prompt_arquivo',
             'status_importacao',
             'prompt_original_importado',
             'texto_original_importado',
@@ -179,7 +206,6 @@ try {
         }
 
         $requiredPromptFields = @(
-            'historia_id',
             'slug',
             'data',
             'titulo_conversa',
@@ -199,47 +225,57 @@ try {
             throw "prompt.md esta sem campos obrigatorios no frontmatter: $($missingPromptFields -join ', ')"
         }
 
-        $number = Get-FrontmatterField -Text $storyText -Name 'numero'
         $slug = Get-FrontmatterField -Text $storyText -Name 'slug'
         $title = Get-FrontmatterField -Text $storyText -Name 'titulo'
-        $image = Get-FrontmatterField -Text $storyText -Name 'imagem'
-        $storyId = Get-FrontmatterField -Text $storyText -Name 'id'
-        $promptStoryId = Get-FrontmatterField -Text $promptText -Name 'historia_id'
         $promptSlug = Get-FrontmatterField -Text $promptText -Name 'slug'
-
-        if ($number -notmatch '^\d+$') {
-            throw "Numero de historia invalido: $number"
-        }
-
         if ($slug -notmatch '^[a-z0-9]+(?:-[a-z0-9]+)*$') {
             throw "Slug invalido: $slug"
         }
-
-        $id = '{0:D3}' -f [int]$number
-        $folder = "$id-$slug"
-
-        if ($storyId -ne $id) {
-            throw "O campo id de historia.md deve ser '$id', mas veio '$storyId'."
-        }
-
-        if ($promptStoryId -ne $id) {
-            throw "O campo historia_id de prompt.md deve ser '$id', mas veio '$promptStoryId'."
-        }
-
         if ($promptSlug -ne $slug) {
             throw "O slug de prompt.md deve ser '$slug', mas veio '$promptSlug'."
         }
 
+        # Reserve numbers already present in the updated main and pending story branches.
+        $numbers = @(0)
+        foreach ($dir in @('content\historias','archive\prompts','assets\historias')) {
+            foreach ($item in (Get-ChildItem -LiteralPath (Join-Path $RootDir $dir))) {
+                if ($item.Name -match '^(\d+)-') { $numbers += [int]$Matches[1] }
+            }
+        }
+        $remoteBranches = @(git ls-remote --heads origin 'refs/heads/feature/historia-*')
+        if ($LASTEXITCODE -ne 0) { throw 'Nao foi possivel consultar branches remotas de historias.' }
+        $localBranches = @(git branch --list --format='%(refname:short)' 'feature/historia-*')
+        if ($LASTEXITCODE -ne 0) { throw 'Nao foi possivel consultar branches locais de historias.' }
+        foreach ($refLine in ($remoteBranches + $localBranches)) {
+            if ($refLine -match 'feature/historia-(\d+)-(.+)$') {
+                $numbers += [int]$Matches[1]
+                if ($Matches[2] -eq $slug) { throw "Ja existe uma branch de historia para o slug '$slug'." }
+            }
+        }
+        $number = [int](($numbers | Measure-Object -Maximum).Maximum) + 1
+        $id = '{0:D3}' -f $number
+        $folder = "$id-$slug"
         $expectedImage = "../../assets/historias/$folder/ilustracao.png"
-        if ($image -ne $expectedImage) {
-            throw "O campo imagem deve ser '$expectedImage', mas veio '$image'."
+        $expectedPromptPath = "../../archive/prompts/$folder.md"
+
+        $storyText = Set-FrontmatterField -Text $storyText -Name 'id' -Value ('"' + $id + '"')
+        $storyText = Set-FrontmatterField -Text $storyText -Name 'numero' -Value ([string]$number)
+        $storyText = Set-FrontmatterField -Text $storyText -Name 'imagem' -Value ('"' + $expectedImage + '"')
+        $storyText = Set-FrontmatterField -Text $storyText -Name 'prompt_arquivo' -Value ('"' + $expectedPromptPath + '"') -Indent '  '
+        $promptText = Set-FrontmatterField -Text $promptText -Name 'historia_id' -Value ('"' + $id + '"')
+
+        if ((Get-FrontmatterField -Text $storyText -Name 'id') -ne $id -or
+            (Get-FrontmatterField -Text $storyText -Name 'numero') -ne [string]$number -or
+            (Get-FrontmatterField -Text $storyText -Name 'imagem') -ne $expectedImage -or
+            (Get-FrontmatterField -Text $storyText -Name 'prompt_arquivo') -ne $expectedPromptPath -or
+            (Get-FrontmatterField -Text $promptText -Name 'historia_id') -ne $id) {
+            throw 'Falha na verificacao dos metadados atribuidos automaticamente.'
         }
 
-        $expectedPromptPath = "../../archive/prompts/$folder.md"
-        $promptPath = Get-FrontmatterField -Text $storyText -Name 'prompt_arquivo'
-        if ($promptPath -ne $expectedPromptPath) {
-            throw "O campo prompt_arquivo deve ser '$expectedPromptPath', mas veio '$promptPath'."
-        }
+        $utf8 = New-Object System.Text.UTF8Encoding($false)
+        [System.IO.File]::WriteAllText($storySource, $storyText, $utf8)
+        [System.IO.File]::WriteAllText($promptSource, $promptText, $utf8)
+        Write-Host "Numero atribuido automaticamente: $id"
 
         $comicPngs = @(Get-ChildItem -LiteralPath $comicsSource -File -Filter '*.png' | Sort-Object Name)
         $bookPngs = @(Get-ChildItem -LiteralPath $bookSource -File -Filter '*.png' | Sort-Object Name)
