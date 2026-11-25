@@ -22,16 +22,16 @@ function Invoke-CheckedCommand {
 try {
     $workingTreeChanges = git status --porcelain
     if ($LASTEXITCODE -ne 0) {
-        throw 'Não foi possível verificar o estado do repositório Git.'
+        throw 'Nao foi possivel verificar o estado do repositorio Git.'
     }
     if ($workingTreeChanges) {
-        throw 'Há alterações locais não commitadas. Faça commit ou stash antes do deploy.'
+        throw 'Ha alteracoes locais nao commitadas. Faca commit ou stash antes do deploy.'
     }
 
-    Write-Host 'Validando conteúdo...'
+    Write-Host 'Validando conteudo...'
     Invoke-CheckedCommand -Command 'python' -Arguments @('scripts/validate_content.py')
 
-    Write-Host 'Instalando dependências do site...'
+    Write-Host 'Instalando dependencias do site...'
     Invoke-CheckedCommand -Command 'npm' -Arguments @('--prefix', 'site', 'install')
 
     Write-Host 'Gerando site para astronautinhas.com.br...'
@@ -39,12 +39,23 @@ try {
 
     $IndexFile = Join-Path $DistDir 'index.html'
     if (-not (Test-Path $IndexFile)) {
-        throw 'O build não gerou site\dist\index.html.'
+        throw 'O build nao gerou site\dist\index.html.'
     }
 
     Write-Host 'Verificando branch gh-pages remota...'
-    git fetch $Remote $Branch 2>$null
-    $remoteExists = ($LASTEXITCODE -eq 0)
+    # Git writes progress to stderr even when successful.
+    # Avoid redirecting native stderr with Windows PowerShell ErrorAction Stop.
+    $remoteRef = @(git ls-remote --exit-code --heads $Remote "refs/heads/$Branch")
+    $remoteStatus = $LASTEXITCODE
+    if ($remoteStatus -ne 0 -and $remoteStatus -ne 2) {
+        throw "Falha ao consultar a branch remota (git exit $remoteStatus)."
+    }
+    $remoteExists = ($remoteStatus -eq 0)
+    if ($remoteExists) {
+        Invoke-CheckedCommand -Command 'git' -Arguments @(
+            'fetch', '--quiet', $Remote, "refs/heads/$($Branch):refs/remotes/$Remote/$Branch"
+        )
+    }
 
     $TempDir = Join-Path ([System.IO.Path]::GetTempPath()) ("astronautinhas-gh-pages-" + [guid]::NewGuid().ToString('N'))
 
@@ -57,7 +68,7 @@ try {
             Push-Location $TempDir
             try {
                 Invoke-CheckedCommand -Command 'git' -Arguments @('checkout', '--orphan', $Branch)
-                git rm -rf . 2>$null | Out-Null
+                Invoke-CheckedCommand -Command 'git' -Arguments @('rm', '-rf', '--quiet', '.')
             }
             finally {
                 Pop-Location
@@ -73,7 +84,7 @@ try {
             Invoke-CheckedCommand -Command 'git' -Arguments @('add', '-A')
             git diff --cached --quiet
             if ($LASTEXITCODE -eq 0) {
-                Write-Host 'Nenhuma alteração no site publicado.'
+                Write-Host 'Nenhuma alteracao no site publicado.'
                 return
             }
 
@@ -85,8 +96,13 @@ try {
         }
     }
     finally {
-        git worktree remove --force $TempDir 2>$null | Out-Null
-        if (Test-Path $TempDir) {
+        if (Test-Path (Join-Path $TempDir '.git')) {
+            git worktree remove --force $TempDir
+            if ($LASTEXITCODE -ne 0) {
+                Write-Warning "Nao foi possivel remover o worktree temporario: $TempDir"
+            }
+        }
+        if ((Test-Path $TempDir) -and -not (Test-Path (Join-Path $TempDir '.git'))) {
             Remove-Item -LiteralPath $TempDir -Recurse -Force -ErrorAction SilentlyContinue
         }
     }
