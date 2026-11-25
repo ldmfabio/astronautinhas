@@ -309,3 +309,10 @@ O script exige:
 - a pagina de quadrinhos nao pode ser copia exata de uma pagina do livrinho.
 
 Essas verificacoes nao substituem a revisao visual humana, mas evitam automaticamente o erro de empacotar a mesma imagem repetida.
+
+
+## Numeracao automatica pelo importador
+
+Esta regra substitui qualquer exigencia anterior de que o gerador conheca o numero definitivo da historia. O comando oficial "Prepare esta historia completa para o site." pode produzir id, numero e historia_id como null, e imagem e prompt_arquivo como caminhos provisorios. Esses cinco campos podem tambem ser omitidos no pacote; o importador os preenche antes da validacao final.
+
+O slug e os demais metadados obrigatorios continuam necessarios. O bloco fonte deve existir, e prompt_arquivo pertence a esse bloco. O importador consulta a main atualizada, os diretorios de historias, prompts e assets, e as branches locais e remotas feature/historia-* para atribuir o maior numero encontrado mais um. Os campos derivados sao substituidos mesmo quando o pacote traz um numero antigo. O ZIP original e as imagens nao sao modificados. Historias com slug ja existente continuam bloqueadas. Importacoes simultaneas ainda podem exigir revisao de conflitos antes do merge.
